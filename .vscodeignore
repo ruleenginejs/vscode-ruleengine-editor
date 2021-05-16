@@ -1,0 +1,17 @@
+.vscode/**
+.vscode-test/**
+out/**
+src/**
+.gitignore
+.yarnrc
+vsc-extension-quickstart.md
+vscode-vue-custom-editor.vsix
+**/tsconfig.json
+**/.eslintrc.json
+**/*.map
+**/*.ts
+media/**
+!media/dist/**
+webpack.config.js
+node_modules
+.github

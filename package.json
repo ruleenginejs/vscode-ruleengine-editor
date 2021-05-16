@@ -1,0 +1,183 @@
+{
+  "name": "vscode-ruleengine",
+  "displayName": "Rule Engine",
+  "description": "Rule Engine",
+  "author": "Nikolay Naumenkov <nikolas.it.web@gmail.com>",
+  "license": "SEE LICENSE IN LICENSE",
+  "version": "0.0.1",
+  "homepage": "https://github.com/ruleenginejs/vscode-ruleengine",
+  "bugs": {
+    "url": "https://github.com/ruleenginejs/vscode-ruleengine/issues",
+    "email": "nikolas.it.web@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ruleenginejs/vscode-ruleengine.git"
+  },
+  "publisher": "ruleengine",
+  "keywords": [
+    "rule engine",
+    "rule editor",
+    "express",
+    "expressjs"
+  ],
+  "engines": {
+    "vscode": "^1.56.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "icon": "images/logo.png",
+  "activationEvents": [
+    "onCustomEditor:vscodeVueCustomEditor.counterEditor",
+    "onCommand:vscodeVueCustomEditor.counterEditor.new",
+    "onCustomEditor:vscodeVueCustomEditor.counterEditor2",
+    "onCommand:vscodeVueCustomEditor.counterEditor2.new"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "customEditors": [
+      {
+        "viewType": "vscodeVueCustomEditor.counterEditor",
+        "displayName": "Counter Editor",
+        "selector": [
+          {
+            "filenamePattern": "*.counter"
+          }
+        ],
+        "priority": "default"
+      },
+      {
+        "viewType": "vscodeVueCustomEditor.counterEditor2",
+        "displayName": "Counter Editor 2",
+        "selector": [
+          {
+            "filenamePattern": "*.counter2"
+          }
+        ],
+        "priority": "default"
+      }
+    ],
+    "commands": [
+      {
+        "command": "vscodeVueCustomEditor.counterEditor.new",
+        "title": "Create New Counter Document",
+        "category": "Counter Editor"
+      },
+      {
+        "command": "vscodeVueCustomEditor.counterEditor.reset",
+        "title": "Reset Counter",
+        "category": "Counter Editor"
+      },
+      {
+        "command": "vscodeVueCustomEditor.counterEditor.add",
+        "title": "Add Number",
+        "category": "Counter Editor",
+        "icon": {
+          "dark": "images/icons/dark-plus.svg",
+          "light": "images/icons/light-plus.svg"
+        }
+      },
+      {
+        "command": "vscodeVueCustomEditor.counterEditor.subtract",
+        "title": "Subtract Number",
+        "category": "Counter Editor",
+        "icon": {
+          "dark": "images/icons/dark-minus.svg",
+          "light": "images/icons/light-minus.svg"
+        }
+      },
+      {
+        "command": "vscodeVueCustomEditor.counterEditor2.new",
+        "title": "Create New Counter2 Document",
+        "category": "Counter Editor 2"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "vscodeVueCustomEditor.counterEditor.reset",
+          "when": "activeCustomEditorId == vscodeVueCustomEditor.counterEditor"
+        },
+        {
+          "command": "vscodeVueCustomEditor.counterEditor.add",
+          "when": "activeCustomEditorId == vscodeVueCustomEditor.counterEditor"
+        },
+        {
+          "command": "vscodeVueCustomEditor.counterEditor.subtract",
+          "when": "activeCustomEditorId == vscodeVueCustomEditor.counterEditor"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "vscodeVueCustomEditor.counterEditor.add",
+          "when": "activeCustomEditorId == vscodeVueCustomEditor.counterEditor",
+          "group": "navigation@1"
+        },
+        {
+          "command": "vscodeVueCustomEditor.counterEditor.subtract",
+          "when": "activeCustomEditorId == vscodeVueCustomEditor.counterEditor",
+          "group": "navigation@2"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "vscodeVueCustomEditor.counterEditor.reset",
+        "key": "Shift+Alt+delete",
+        "when": "activeCustomEditorId == vscodeVueCustomEditor.counterEditor"
+      },
+      {
+        "command": "vscodeVueCustomEditor.counterEditor.reset",
+        "key": "Shift+Alt+backspace",
+        "when": "activeCustomEditorId == vscodeVueCustomEditor.counterEditor"
+      },
+      {
+        "command": "vscodeVueCustomEditor.counterEditor.add",
+        "key": "Shift+Alt+=",
+        "when": "activeCustomEditorId == vscodeVueCustomEditor.counterEditor"
+      },
+      {
+        "command": "vscodeVueCustomEditor.counterEditor.subtract",
+        "key": "Shift+Alt+-",
+        "when": "activeCustomEditorId == vscodeVueCustomEditor.counterEditor"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "npm run media:build && npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "test-compile": "tsc -p ./",
+    "test-watch": "tsc -watch -p ./",
+    "pretest": "npm run test-compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "media:build": "cd media && npm run build && cd ..",
+    "deploy": "vsce publish --no-yarn",
+    "postversion": "npm run push",
+    "push": "git push origin master && git push origin master --tags"
+  },
+  "dependencies": {
+    "worker-rpc": "0.2.0"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.3",
+    "@types/mocha": "^8.2.2",
+    "@types/node": "^12.11.7",
+    "@types/vscode": "^1.56.0",
+    "@typescript-eslint/eslint-plugin": "^4.23.0",
+    "@typescript-eslint/parser": "^4.23.0",
+    "eslint": "^7.26.0",
+    "glob": "^7.1.7",
+    "mocha": "^8.4.0",
+    "ts-loader": "^9.1.2",
+    "typescript": "^4.2.4",
+    "vsce": "^1.80.0",
+    "vscode-test": "^1.5.2",
+    "webpack": "^5.37.0",
+    "webpack-cli": "^4.7.0"
+  }
+}

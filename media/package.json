@@ -1,0 +1,42 @@
+{
+  "name": "vue-counter-editor",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "cross-env NO_SOURCE_MAP=true npm run serve",
+    "serve": "vue-cli-service serve",
+    "build": "cross-env NO_SOURCE_MAP=true vue-cli-service build",
+    "stage": "cross-env NO_MINIFY=true npm run build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "core-js": "3.10.1",
+    "eventemitter3": "4.0.7",
+    "is-plain-object": "2.0.4",
+    "lodash": "4.17.21",
+    "vue": "3.0.11",
+    "worker-rpc": "0.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.13.15",
+    "@babel/eslint-parser": "^7.13.14",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.13.8",
+    "@babel/plugin-proposal-object-rest-spread": "^7.13.8",
+    "@babel/plugin-proposal-optional-chaining": "^7.13.12",
+    "@vue/cli-plugin-babel": "~5.0.0-alpha.8",
+    "@vue/cli-plugin-eslint": "~5.0.0-alpha.8",
+    "@vue/cli-service": "~5.0.0-alpha.8",
+    "@vue/compiler-sfc": "3.0.11",
+    "autoprefixer": "^10.2.5",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.24.0",
+    "eslint-plugin-vue": "^7.9.0",
+    "postcss": "^8.2.10",
+    "postcss-import": "^14.0.1",
+    "postcss-nesting": "^7.0.1",
+    "tailwindcss": "^2.1.1"
+  },
+  "browserslist": [
+    "last 2 Chrome versions"
+  ]
+}
