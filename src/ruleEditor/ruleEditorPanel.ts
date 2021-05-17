@@ -1,8 +1,8 @@
 import * as vscode from 'vscode';
-import { BaseEditorPanel } from './common/editorPanel';
-import { getNonce } from './common/util';
+import { BaseEditorPanel } from '../common/editorPanel';
+import { getNonce } from '../common/util';
 
-export class CounterEditorPanel extends BaseEditorPanel<string> {
+export class RuleEditorPanel extends BaseEditorPanel<string> {
 
   protected getHtmlForWebview(webview: vscode.Webview): string {
     const scriptPathOnDisk = vscode.Uri.joinPath(this.extensionUri, this.mediaFolderName, 'dist', 'assets', 'js', 'app.js');
@@ -19,7 +19,7 @@ export class CounterEditorPanel extends BaseEditorPanel<string> {
         <meta charset="UTF-8">
         <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; img-src ${webview.cspSource}; script-src 'nonce-${nonce}';">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Counter Editor</title>
+        <title>Rule Editor</title>
 
         <script defer="defer" nonce="${nonce}" src="${scriptUri}"></script>
         <link href="${stylesUri}" rel="stylesheet">

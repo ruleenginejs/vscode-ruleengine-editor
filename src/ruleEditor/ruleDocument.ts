@@ -2,12 +2,12 @@ import * as vscode from 'vscode';
 import { BaseDocument } from '../common/document';
 import { DocumentEdit, DocumentModel } from '../common/documentModel';
 
-export class CounterDocument extends BaseDocument<string, DocumentModel<string>> {
+export class RuleDocument extends BaseDocument<string, DocumentModel<string>> {
 
-  public static async create(uri: vscode.Uri, backupId: string | undefined): Promise<CounterDocument> {
+  public static async create(uri: vscode.Uri, backupId: string | undefined): Promise<RuleDocument> {
     const dataFile = typeof backupId === 'string' ? vscode.Uri.parse(backupId) : uri;
-    const fileData = await BaseDocument.readFile<string>(dataFile, CounterDocument.readConverter);
-    return new CounterDocument(uri, fileData);
+    const fileData = await BaseDocument.readFile<string>(dataFile, RuleDocument.readConverter);
+    return new RuleDocument(uri, fileData);
   }
 
   protected createDocumentModel(initialData: string): DocumentModel<string> {
@@ -26,11 +26,11 @@ export class CounterDocument extends BaseDocument<string, DocumentModel<string>>
   }
 
   protected readFile(uri: vscode.Uri): Promise<string> {
-    return BaseDocument.readFile<string>(uri, CounterDocument.readConverter);
+    return BaseDocument.readFile<string>(uri, RuleDocument.readConverter);
   }
 
   protected writeFile(uri: vscode.Uri, data: string): Promise<void> {
-    return BaseDocument.writeFile<string>(uri, data, CounterDocument.writeConverter);
+    return BaseDocument.writeFile<string>(uri, data, RuleDocument.writeConverter);
   }
 
   public makeEdit(edit: DocumentEdit, panelId?: number): void {
