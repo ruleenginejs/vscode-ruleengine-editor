@@ -1,4 +1,2 @@
-/* @import "vscode"; */
-@import "tailwind";
-@import "base";
-@import "app";
+/* @import "vscode/all"; */
+@import "app/all";

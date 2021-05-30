@@ -1,0 +1,4 @@
+@import "tailwind";
+@import "vendor";
+@import "base";
+@import "app";
