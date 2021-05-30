@@ -1,40 +1,18 @@
-import { ref, watch, onBeforeUnmount } from "vue"
+import { ref, watch, onBeforeUnmount, nextTick } from "vue"
 import { WorkbenchRpc } from './workbench-rpc';
 
 export default function useWorkbench(vscode) {
-  const rpc = new WorkbenchRpc(vscode);
   const editor = ref(null);
+  const rpc = new WorkbenchRpc(vscode);
+
   let pendingInitialData = null;
 
-  rpc.provider.registerRpcHandler("getFileData", () => {
-    if (!editor.value) return "";
-    return JSON.stringify(editor.value.model.getValue(), null, 2);
-  });
+  rpc.provider.registerRpcHandler("setInitialData", handleSetInitialData);
+  rpc.provider.registerRpcHandler("getFileData", handleGetFileData);
+  rpc.provider.registerRpcHandler("setFileData", handleSetFileData);
+  rpc.provider.registerRpcHandler("applyEdits", handleApplyEdits);
 
-  rpc.provider.registerRpcHandler("setFileData", (data) => {
-    editor.value?.model.setValue(data);
-  });
-
-  rpc.provider.registerRpcHandler("applyEdits", ({ editOperations, notify }) => {
-    editor.value?.model.applyEdits(editOperations, notify);
-  });
-
-  rpc.provider.registerRpcHandler("setInitialData", ({ data, editOperations }) => {
-    if (editor.value) {
-      editor.value.model.setValue(data);
-      editor.value.model.applyEdits(editOperations, false);
-    } else {
-      pendingInitialData = { data, editOperations };
-    }
-  });
-
-  watch(editor, () => {
-    if (pendingInitialData && editor.value) {
-      editor.value.model.setValue(pendingInitialData.data);
-      editor.value.model.applyEdits(pendingInitialData.editOperations, false);
-      pendingInitialData = null;
-    }
-  });
+  watch(editor, handlePendingData);
 
   const onChangeValue = (e) => {
     rpc.provider.signal("edit", e);
@@ -43,6 +21,45 @@ export default function useWorkbench(vscode) {
   onBeforeUnmount(() => {
     rpc.destroy();
   });
+
+  function handleGetFileData() {
+    if (!editor.value) {
+      return "";
+    }
+    const value = editor.value.instance.getValue();
+    return JSON.stringify(value, null, 2);
+  }
+
+  function handleSetFileData(data) {
+    editor.value?.instance.setValue(data);
+  }
+
+  function handleApplyEdits({ editOperations, notify }) {
+    editor.value?.instance.applyEdits(editOperations, notify);
+  }
+
+  function handleSetInitialData(payload) {
+    if (editor.value) {
+      setInitialData(payload);
+    } else {
+      pendingInitialData = { ...payload };
+    }
+  }
+
+  function handlePendingData() {
+    if (pendingInitialData && editor.value) {
+      setInitialData(pendingInitialData);
+      pendingInitialData = null;
+    }
+  }
+
+  function setInitialData({ data, editOperations }) {
+    editor.value.instance.setValue(data);
+    editor.value.instance.applyEdits(editOperations, false);
+    nextTick(() => {
+      editor.value.instance.fitCanvas(editor.value.instance.getZoom());
+    });
+  }
 
   return {
     editor,
