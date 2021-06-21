@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { RuleEditorProvider } from './ruleEditor/ruleEditorProvider';
 
 export class NewRuleFileCommand {
-  public static readonly id = "ruleEngine.ruleEditor.new";
+  public static readonly id = "ruleengine.ruleEditor.newFile";
 
   private static newUntitledId = 1;
 

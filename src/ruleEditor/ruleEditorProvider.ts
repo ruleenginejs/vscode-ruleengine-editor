@@ -4,7 +4,7 @@ import { RuleDocument } from './ruleDocument';
 import { RuleEditor } from './ruleEditor';
 
 export class RuleEditorProvider extends BaseEditorProvider<RuleDocument, RuleEditor> {
-  public static readonly viewType = "ruleEngine.ruleEditor";
+  public static readonly viewType = "ruleengine.ruleEditor";
 
   private static options: EditorProviderOptions = {
     webviewOptions: {
