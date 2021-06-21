@@ -38,6 +38,12 @@
     "onCommand:ruleengine.ruleEditor.newFile"
   ],
   "main": "./dist/extension.js",
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    },
+    "virtualWorkspaces": true
+  },
   "contributes": {
     "customEditors": [
       {
@@ -56,8 +62,32 @@
         "command": "ruleengine.ruleEditor.newFile",
         "title": "Create New Rule Document",
         "category": "Rule Engine"
+      },
+      {
+        "command": "ruleengine.ruleEditor.addStep",
+        "title": "Add Step",
+        "category": "Rule Engine",
+        "icon": {
+          "dark": "images/icons/dark-plus.svg",
+          "light": "images/icons/light-plus.svg"
+        }
       }
-    ]
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "ruleengine.ruleEditor.addStep",
+          "when": "activeCustomEditorId == ruleengine.ruleEditor"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "ruleengine.ruleEditor.addStep",
+          "when": "activeCustomEditorId == ruleengine.ruleEditor",
+          "group": "navigation@1"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run build",

@@ -1,6 +1,15 @@
 import { ref, watch, onBeforeUnmount, nextTick } from "vue"
 import { WorkbenchRpc } from './workbench-rpc';
 
+const NEW_STEP_OFFSET = [20, 20];
+
+const edgeScrollSizes = Object.freeze({
+  edgeTopSize: { in: 10, out: 0 },
+  edgeLeftSize: { in: 10, out: 0 },
+  edgeRightSize: { in: 10, out: 0 },
+  edgeBottomSize: { in: 10, out: 0 }
+});
+
 export default function useWorkbench(vscode) {
   const editor = ref(null);
   const rpc = new WorkbenchRpc(vscode);
@@ -11,6 +20,7 @@ export default function useWorkbench(vscode) {
   rpc.provider.registerRpcHandler("getFileData", handleGetFileData);
   rpc.provider.registerRpcHandler("setFileData", handleSetFileData);
   rpc.provider.registerRpcHandler("applyEdits", handleApplyEdits);
+  rpc.provider.registerRpcHandler("createStep", handleCreateStep);
 
   watch(editor, handlePendingData);
 
@@ -61,8 +71,13 @@ export default function useWorkbench(vscode) {
     });
   }
 
+  function handleCreateStep({ type, name, notify }) {
+    editor.value.instance.newNodeInCurrentViewWithOffset(type, NEW_STEP_OFFSET, { name }, notify);
+  }
+
   return {
     editor,
+    edgeScrollSizes,
     onChangeValue
   }
 }

@@ -1,6 +1,10 @@
 <template>
   <div class="v-workbench">
-    <v-editor ref="editor" @change-value="onChangeValue" />
+    <v-editor
+      ref="editor"
+      :edge-scroll-sizes="edgeScrollSizes"
+      @change-value="onChangeValue"
+    />
   </div>
 </template>
 
@@ -12,10 +16,11 @@ export default {
   name: "v-workbench",
   setup() {
     const vscode = inject("$vscode");
-    const { editor, onChangeValue } = useWorkbench(vscode);
+    const { editor, edgeScrollSizes, onChangeValue } = useWorkbench(vscode);
 
     return {
       editor,
+      edgeScrollSizes,
       onChangeValue
     };
   }

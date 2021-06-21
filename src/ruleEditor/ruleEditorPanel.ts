@@ -4,6 +4,10 @@ import { getNonce } from '../common/util';
 
 export class RuleEditorPanel extends BaseEditorPanel<string> {
 
+  public createStep(type: String, name: String | null, notify: boolean = false): Promise<void> {
+    return this._rpcProvider.rpc("createStep", { type, name, notify });
+  }
+
   protected getHtmlForWebview(webview: vscode.Webview): string {
     const scriptPathOnDisk = vscode.Uri.joinPath(this.extensionUri, this.mediaFolderName, 'editor', 'dist', 'assets', 'js', 'app.js');
     const scriptUri = webview.asWebviewUri(scriptPathOnDisk);

@@ -5,6 +5,7 @@ import { RuleEditor } from './ruleEditor';
 
 export class RuleEditorProvider extends BaseEditorProvider<RuleDocument, RuleEditor> {
   public static readonly viewType = "ruleengine.ruleEditor";
+  public static current: RuleEditorProvider | undefined;
 
   private static options: EditorProviderOptions = {
     webviewOptions: {
@@ -14,11 +15,20 @@ export class RuleEditorProvider extends BaseEditorProvider<RuleDocument, RuleEdi
   };
 
   public static register(context: vscode.ExtensionContext): vscode.Disposable {
-    return vscode.window.registerCustomEditorProvider(
+    RuleEditorProvider.current = new RuleEditorProvider(context);
+
+    const provider = vscode.window.registerCustomEditorProvider(
       RuleEditorProvider.viewType,
-      new RuleEditorProvider(context),
+      RuleEditorProvider.current,
       RuleEditorProvider.options
     );
+
+    return {
+      dispose: () => {
+        RuleEditorProvider.current = undefined;
+        provider.dispose();
+      }
+    };
   }
 
   protected createDocument(uri: vscode.Uri, openContext: vscode.CustomDocumentOpenContext): Promise<RuleDocument> {
