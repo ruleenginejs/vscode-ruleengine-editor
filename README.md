@@ -1,4 +1,4 @@
-# VS Code Rule Engine
+# VS Code Rule Engine Editor
 
 ## License
 
