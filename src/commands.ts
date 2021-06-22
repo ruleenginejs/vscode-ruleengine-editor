@@ -28,7 +28,7 @@ export class AddStepCommand {
   public static readonly id = "ruleengine.ruleEditor.addStep";
 
   public static async execute(): Promise<any> {
-    const activeEditorPanel = RuleEditorProvider.current?.activeCustomEditor?.getActivePanel();
+    const activeEditorPanel = findActivePanel();
     if (!activeEditorPanel) {
       return;
     }
@@ -65,14 +65,73 @@ export class AddStepCommand {
       return;
     }
 
-    createStep(activeEditorPanel, type, name, true);
+    activeEditorPanel.createStep(type, name, true);
   }
 }
 
-async function createStep(panel: RuleEditorPanel, type: String, name: String | null, notify: boolean) {
-  try {
-    await panel.createStep(type, name, notify);
-  } catch (err) {
-    vscode.window.showErrorMessage(`Failed to create '${type}' step: ${err.message}`);
+export class DeleteCommand {
+  public static readonly id = "ruleengine.ruleEditor.delete";
+
+  public static async execute(): Promise<any> {
+    const activeEditorPanel = findActivePanel();
+    activeEditorPanel?.deleteSelection(true);
   }
+}
+
+export class Zoom50Command {
+  public static readonly id = "ruleengine.ruleEditor.zoom50";
+
+  public static async execute(): Promise<any> {
+    const activeEditorPanel = findActivePanel();
+    activeEditorPanel?.setZoom(50);
+  }
+}
+
+export class Zoom100Command {
+  public static readonly id = "ruleengine.ruleEditor.zoom100";
+
+  public static async execute(): Promise<any> {
+    const activeEditorPanel = findActivePanel();
+    activeEditorPanel?.setZoom(100);
+  }
+}
+
+export class Zoom200Command {
+  public static readonly id = "ruleengine.ruleEditor.zoom200";
+
+  public static async execute(): Promise<any> {
+    const activeEditorPanel = findActivePanel();
+    activeEditorPanel?.setZoom(200);
+  }
+}
+
+export class FitCanvasCommand {
+  public static readonly id = "ruleengine.ruleEditor.fitCanvas";
+
+  public static async execute(): Promise<any> {
+    const activeEditorPanel = findActivePanel();
+    activeEditorPanel?.fitCanvas();
+  }
+}
+
+export class ZoomInCommand {
+  public static readonly id = "ruleengine.ruleEditor.zoomIn";
+
+  public static async execute(): Promise<any> {
+    const activeEditorPanel = findActivePanel();
+    activeEditorPanel?.zoomIn();
+  }
+}
+
+export class ZoomOutCommand {
+  public static readonly id = "ruleengine.ruleEditor.zoomOut";
+
+  public static async execute(): Promise<any> {
+    const activeEditorPanel = findActivePanel();
+    activeEditorPanel?.zoomOut();
+  }
+}
+
+function findActivePanel(): RuleEditorPanel | undefined {
+  return RuleEditorProvider.current?.activeCustomEditor?.getActivePanel();
 }

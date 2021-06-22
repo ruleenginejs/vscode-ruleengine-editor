@@ -8,6 +8,26 @@ export class RuleEditorPanel extends BaseEditorPanel<string> {
     return this._rpcProvider.rpc("createStep", { type, name, notify });
   }
 
+  public deleteSelection(notify: boolean = false): Promise<void> {
+    return this._rpcProvider.rpc("deleteSelection", { notify });
+  }
+
+  public fitCanvas(maxZoom: number | null = null): Promise<void> {
+    return this._rpcProvider.rpc("fitCanvas", { maxZoom });
+  }
+
+  public setZoom(value: number): Promise<void> {
+    return this._rpcProvider.rpc("setZoom", { value });
+  }
+
+  public zoomIn(): Promise<void> {
+    return this._rpcProvider.rpc("zoomIn");
+  }
+
+  public zoomOut(): Promise<void> {
+    return this._rpcProvider.rpc("zoomOut");
+  }
+
   protected getHtmlForWebview(webview: vscode.Webview): string {
     const scriptPathOnDisk = vscode.Uri.joinPath(this.extensionUri, this.mediaFolderName, 'editor', 'dist', 'assets', 'js', 'app.js');
     const scriptUri = webview.asWebviewUri(scriptPathOnDisk);

@@ -60,23 +60,93 @@
     "commands": [
       {
         "command": "ruleengine.ruleEditor.newFile",
-        "title": "Create New Rule Document",
-        "category": "Rule Engine"
+        "title": "Rule Editor: Create New Rule Document"
       },
       {
         "command": "ruleengine.ruleEditor.addStep",
-        "title": "Add Step",
-        "category": "Rule Engine",
+        "title": "Rule Editor: Add Step",
         "icon": {
           "dark": "images/icons/dark-plus.svg",
           "light": "images/icons/light-plus.svg"
         }
+      },
+      {
+        "command": "ruleengine.ruleEditor.zoomIn",
+        "title": "Rule Editor: Zoom In",
+        "icon": {
+          "dark": "images/icons/dark-zoom-in.svg",
+          "light": "images/icons/light-zoom-in.svg"
+        }
+      },
+      {
+        "command": "ruleengine.ruleEditor.zoomOut",
+        "title": "Rule Editor: Zoom Out",
+        "icon": {
+          "dark": "images/icons/dark-zoom-out.svg",
+          "light": "images/icons/light-zoom-out.svg"
+        }
+      },
+      {
+        "command": "ruleengine.ruleEditor.fitCanvas",
+        "title": "Rule Editor: Fit Canvas",
+        "icon": {
+          "dark": "images/icons/dark-move.svg",
+          "light": "images/icons/light-move.svg"
+        }
+      },
+      {
+        "command": "ruleengine.ruleEditor.delete",
+        "title": "Rule Editor: Delete",
+        "icon": {
+          "dark": "images/icons/dark-trash.svg",
+          "light": "images/icons/light-trash.svg"
+        }
+      },
+      {
+        "command": "ruleengine.ruleEditor.zoom50",
+        "title": "Rule Editor: Zoom 50%"
+      },
+      {
+        "command": "ruleengine.ruleEditor.zoom100",
+        "title": "Rule Editor: Zoom 100%"
+      },
+      {
+        "command": "ruleengine.ruleEditor.zoom200",
+        "title": "Rule Editor: Zoom 200%"
       }
     ],
     "menus": {
       "commandPalette": [
         {
           "command": "ruleengine.ruleEditor.addStep",
+          "when": "activeCustomEditorId == ruleengine.ruleEditor"
+        },
+        {
+          "command": "ruleengine.ruleEditor.zoomIn",
+          "when": "activeCustomEditorId == ruleengine.ruleEditor"
+        },
+        {
+          "command": "ruleengine.ruleEditor.zoomOut",
+          "when": "activeCustomEditorId == ruleengine.ruleEditor"
+        },
+        {
+          "command": "ruleengine.ruleEditor.zoom50",
+          "when": "activeCustomEditorId == ruleengine.ruleEditor"
+        },
+        {
+          "command": "ruleengine.ruleEditor.zoom100",
+          "when": "activeCustomEditorId == ruleengine.ruleEditor"
+        },
+        {
+          "command": "ruleengine.ruleEditor.zoom200",
+          "when": "activeCustomEditorId == ruleengine.ruleEditor"
+        },
+        {
+          "command": "ruleengine.ruleEditor.fitCanvas",
+          "when": "activeCustomEditorId == ruleengine.ruleEditor"
+        },
+        {
+          "command": "ruleengine.ruleEditor.delete",
           "when": "activeCustomEditorId == ruleengine.ruleEditor"
         }
       ],
@@ -85,6 +155,41 @@
           "command": "ruleengine.ruleEditor.addStep",
           "when": "activeCustomEditorId == ruleengine.ruleEditor",
           "group": "navigation@1"
+        },
+        {
+          "command": "ruleengine.ruleEditor.zoomIn",
+          "when": "activeCustomEditorId == ruleengine.ruleEditor",
+          "group": "navigation@2"
+        },
+        {
+          "command": "ruleengine.ruleEditor.zoomOut",
+          "when": "activeCustomEditorId == ruleengine.ruleEditor",
+          "group": "navigation@3"
+        },
+        {
+          "command": "ruleengine.ruleEditor.fitCanvas",
+          "when": "activeCustomEditorId == ruleengine.ruleEditor",
+          "group": "navigation@4"
+        },
+        {
+          "command": "ruleengine.ruleEditor.delete",
+          "when": "activeCustomEditorId == ruleengine.ruleEditor",
+          "group": "navigation@5"
+        },
+        {
+          "command": "ruleengine.ruleEditor.zoom50",
+          "when": "activeCustomEditorId == ruleengine.ruleEditor",
+          "group": "6_close@1"
+        },
+        {
+          "command": "ruleengine.ruleEditor.zoom100",
+          "when": "activeCustomEditorId == ruleengine.ruleEditor",
+          "group": "6_close@2"
+        },
+        {
+          "command": "ruleengine.ruleEditor.zoom200",
+          "when": "activeCustomEditorId == ruleengine.ruleEditor",
+          "group": "6_close@3"
         }
       ]
     }

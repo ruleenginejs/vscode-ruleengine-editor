@@ -21,6 +21,11 @@ export default function useWorkbench(vscode) {
   rpc.provider.registerRpcHandler("setFileData", handleSetFileData);
   rpc.provider.registerRpcHandler("applyEdits", handleApplyEdits);
   rpc.provider.registerRpcHandler("createStep", handleCreateStep);
+  rpc.provider.registerRpcHandler("setZoom", handleSetZoom);
+  rpc.provider.registerRpcHandler("fitCanvas", handleFitCanvas);
+  rpc.provider.registerRpcHandler("deleteSelection", handleDeleteSelection);
+  rpc.provider.registerRpcHandler("zoomIn", handleZoomIn);
+  rpc.provider.registerRpcHandler("zoomOut", handleZoomOut);
 
   watch(editor, handlePendingData);
 
@@ -73,6 +78,24 @@ export default function useWorkbench(vscode) {
 
   function handleCreateStep({ type, name, notify }) {
     editor.value.instance.newNodeInCurrentViewWithOffset(type, NEW_STEP_OFFSET, { name }, notify);
+  }
+
+  function handleSetZoom({ value }) {
+    editor.value.instance.setZoom(value);
+  }
+
+  function handleZoomIn() {
+  }
+
+  function handleZoomOut() {
+  }
+
+  function handleFitCanvas({ maxZoom }) {
+    editor.value.instance.fitCanvas(maxZoom);
+  }
+
+  function handleDeleteSelection({ notify }) {
+    editor.value.instance.deleteSelectedObject(notify);
   }
 
   return {
