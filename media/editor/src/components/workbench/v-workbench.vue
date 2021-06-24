@@ -2,6 +2,7 @@
   <div class="v-workbench">
     <v-editor
       ref="editor"
+      v-model:zoom="zoom"
       :edge-scroll-sizes="edgeScrollSizes"
       @change-value="onChangeValue"
     />
@@ -16,10 +17,12 @@ export default {
   name: "v-workbench",
   setup() {
     const vscode = inject("$vscode");
-    const { editor, edgeScrollSizes, onChangeValue } = useWorkbench(vscode);
+    const { editor, zoom, edgeScrollSizes, onChangeValue } =
+      useWorkbench(vscode);
 
     return {
       editor,
+      zoom,
       edgeScrollSizes,
       onChangeValue
     };

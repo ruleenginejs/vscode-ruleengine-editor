@@ -2,6 +2,7 @@ import { ref, watch, onBeforeUnmount, nextTick } from "vue"
 import { WorkbenchRpc } from './workbench-rpc';
 
 const NEW_STEP_OFFSET = [20, 20];
+const DEFAULT_ZOOM = 100;
 
 const edgeScrollSizes = Object.freeze({
   edgeTopSize: { in: 10, out: 0 },
@@ -12,6 +13,7 @@ const edgeScrollSizes = Object.freeze({
 
 export default function useWorkbench(vscode) {
   const editor = ref(null);
+  const zoom = ref(DEFAULT_ZOOM);
   const rpc = new WorkbenchRpc(vscode);
 
   let pendingInitialData = null;
@@ -77,7 +79,12 @@ export default function useWorkbench(vscode) {
   }
 
   function handleCreateStep({ type, name, notify }) {
-    editor.value.instance.newNodeInCurrentViewWithOffset(type, NEW_STEP_OFFSET, { name }, notify);
+    editor.value.instance.newNodeInCurrentViewWithOffset(
+      type,
+      NEW_STEP_OFFSET,
+      { name },
+      notify
+    );
   }
 
   function handleSetZoom({ value }) {
@@ -85,9 +92,11 @@ export default function useWorkbench(vscode) {
   }
 
   function handleZoomIn() {
+    zoom.value = Math.ceil(zoom.value * 2);
   }
 
   function handleZoomOut() {
+    zoom.value = Math.ceil(zoom.value / 2);
   }
 
   function handleFitCanvas({ maxZoom }) {
@@ -100,6 +109,7 @@ export default function useWorkbench(vscode) {
 
   return {
     editor,
+    zoom,
     edgeScrollSizes,
     onChangeValue
   }
