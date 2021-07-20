@@ -27,7 +27,7 @@
     "javascript"
   ],
   "engines": {
-    "vscode": "^1.57.0"
+    "vscode": "^1.58.1"
   },
   "categories": [
     "Other"
@@ -208,26 +208,27 @@
     "editor:build": "cd media/editor && npm run build && cd ../..",
     "deploy": "vsce publish --no-yarn",
     "postversion": "npm run push",
-    "push": "git push origin master && git push origin master --tags"
+    "push": "git push origin master && git push origin master --tags",
+    "vsix": "npx vsce package"
   },
   "dependencies": {
     "worker-rpc": "0.2.0"
   },
   "devDependencies": {
-    "@types/glob": "^7.1.3",
-    "@types/mocha": "^8.2.2",
+    "@types/glob": "^7.1.4",
+    "@types/mocha": "^8.2.3",
     "@types/node": "^12.11.7",
-    "@types/vscode": "^1.57.0",
-    "@typescript-eslint/eslint-plugin": "^4.27.0",
-    "@typescript-eslint/parser": "^4.27.0",
-    "eslint": "^7.29.0",
+    "@types/vscode": "^1.58.1",
+    "@typescript-eslint/eslint-plugin": "^4.28.4",
+    "@typescript-eslint/parser": "^4.28.4",
+    "eslint": "^7.31.0",
     "glob": "^7.1.7",
-    "mocha": "^9.0.1",
+    "mocha": "^9.0.2",
     "ts-loader": "^9.2.3",
-    "typescript": "^4.3.4",
-    "vsce": "^1.93.0",
-    "vscode-test": "^1.5.2",
-    "webpack": "^5.39.1",
+    "typescript": "^4.3.5",
+    "vsce": "^1.96.0",
+    "@vscode/test-electron": "^1.6.1",
+    "webpack": "^5.45.1",
     "webpack-cli": "^4.7.2"
   }
 }
