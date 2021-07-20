@@ -1,5 +1,7 @@
 <template>
-  <div class="not-found">No matching content. Please reopen the document.</div>
+  <div class="not-found">
+    <p>No matching content. Please reopen the document.</p>
+  </div>
 </template>
 
 <script>

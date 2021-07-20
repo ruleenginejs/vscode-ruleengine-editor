@@ -1,0 +1,12 @@
+.not-found {
+  /* visual styles */
+  @apply text-13sp;
+
+  /* sizes */
+  @apply pt-5sp pl-2.5;
+}
+
+.not-found p {
+  /* sizes */
+  @apply my-13sp;
+}
