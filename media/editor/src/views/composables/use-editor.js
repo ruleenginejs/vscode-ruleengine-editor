@@ -1,5 +1,5 @@
 import { ref, watch, onBeforeUnmount, nextTick } from "vue"
-import { WorkbenchRpc } from './workbench-rpc';
+import { ExthostRpc } from "@/utils/exthost-rpc";
 
 const NEW_STEP_OFFSET = [20, 20];
 const DEFAULT_ZOOM = 100;
@@ -11,10 +11,10 @@ const edgeScrollSizes = Object.freeze({
   edgeBottomSize: { in: 10, out: 0 }
 });
 
-export default function useWorkbench(vscode) {
+export default function useEditor(vscode) {
   const editor = ref(null);
   const zoom = ref(DEFAULT_ZOOM);
-  const rpc = new WorkbenchRpc(vscode);
+  const rpc = new ExthostRpc(vscode);
 
   let pendingInitialData = null;
 
