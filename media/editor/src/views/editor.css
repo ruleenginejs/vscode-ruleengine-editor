@@ -5,3 +5,13 @@
   /* sizes */
   @apply w-full h-full;
 }
+
+.editor-hint {
+  /* visual styles */
+  @apply text-editor-hint-foreground;
+}
+
+.editor-hint__add {
+  /* visual styles */
+  @apply align-middle leading-none;
+}

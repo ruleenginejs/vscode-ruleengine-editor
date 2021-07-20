@@ -7,8 +7,7 @@
       @change-value="onChangeValue"
     >
       <template #empty-text>
-        Press <a href=""><span class="codicon codicon-plus"></span></a> to add
-        new step.
+        <editor-hint />
       </template>
     </v-editor>
   </div>
@@ -16,10 +15,14 @@
 
 <script>
 import { inject } from "vue";
+import EditorHint from "./editor-hint";
 import useEditor from "./composables/use-editor";
 
 export default {
   name: "editor",
+  components: {
+    EditorHint
+  },
   setup() {
     const vscode = inject("$vscode");
     const { editor, zoom, edgeScrollSizes, onChangeValue } = useEditor(vscode);

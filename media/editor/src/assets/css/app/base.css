@@ -16,3 +16,11 @@ body {
   /* selection */
   @apply select-none;
 }
+
+a {
+  /* visual styles */
+  @apply text-text-link-foreground;
+
+  /* outline */
+  @apply focus:outline-none;
+}
