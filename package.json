@@ -154,27 +154,27 @@
         {
           "command": "ruleengine.ruleEditor.addStep",
           "when": "activeCustomEditorId == ruleengine.ruleEditor",
-          "group": "navigation@1"
+          "group": "navigation@-10"
         },
         {
           "command": "ruleengine.ruleEditor.zoomIn",
           "when": "activeCustomEditorId == ruleengine.ruleEditor",
-          "group": "navigation@2"
+          "group": "navigation@-9"
         },
         {
           "command": "ruleengine.ruleEditor.zoomOut",
           "when": "activeCustomEditorId == ruleengine.ruleEditor",
-          "group": "navigation@3"
+          "group": "navigation@-8"
         },
         {
           "command": "ruleengine.ruleEditor.fitCanvas",
           "when": "activeCustomEditorId == ruleengine.ruleEditor",
-          "group": "navigation@4"
+          "group": "navigation@-7"
         },
         {
           "command": "ruleengine.ruleEditor.delete",
           "when": "activeCustomEditorId == ruleengine.ruleEditor",
-          "group": "navigation@5"
+          "group": "navigation@-6"
         },
         {
           "command": "ruleengine.ruleEditor.zoom50",

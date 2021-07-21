@@ -10,6 +10,16 @@ export enum StepType {
 
 const stepQuickPickItems: Array<vscode.QuickPickItem> = [
   {
+    label: StepType.single,
+    description: "handler",
+    detail: "This step run handler if specified."
+  },
+  {
+    label: StepType.composite,
+    description: "handler",
+    detail: "This step contains other steps."
+  },
+  {
     label: StepType.start,
     description: "navigation",
     detail: "This step indicates start of rule. Only one for rule."
@@ -23,16 +33,6 @@ const stepQuickPickItems: Array<vscode.QuickPickItem> = [
     label: StepType.error,
     description: "navigation",
     detail: "This step run when error occurs in handlers. Only one for rule."
-  },
-  {
-    label: StepType.single,
-    description: "handler",
-    detail: "This step run handler if specified."
-  },
-  {
-    label: StepType.composite,
-    description: "handler",
-    detail: "This step contains other steps."
   }
 ];
 
