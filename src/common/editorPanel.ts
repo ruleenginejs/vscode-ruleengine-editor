@@ -12,7 +12,7 @@ export interface EditorPanel<TData> extends DisposableEvent {
 
   getFileData(): Promise<TData>;
   setFileData(data: TData): Promise<void>;
-  applyEdits(editOperations: EditOperation[]): Promise<void>;
+  applyEdits(editOperations: EditOperation[], notify: boolean): Promise<void>;
   setInitialData(data: TData, editOperations: EditOperation[]): Promise<void>;
 }
 
@@ -40,6 +40,10 @@ export abstract class BaseEditorPanel<TData> extends Disposable implements Edito
     this.regiserListeners();
   }
 
+  private regiserListeners() {
+    this._register(this._panel.onDidDispose(() => this.dispose()));
+  }
+
   public get panel() { return this._panel; }
 
   public get extensionUri() { return this._extensionUri; }
@@ -48,9 +52,7 @@ export abstract class BaseEditorPanel<TData> extends Disposable implements Edito
 
   public get active() { return this._panel.active; }
 
-  private regiserListeners() {
-    this._register(this._panel.onDidDispose(() => this.dispose()));
-  }
+  public get mediaFolderName() { return "media"; }
 
   protected abstract getHtmlForWebview(webview: vscode.Webview): string;
 
@@ -61,7 +63,21 @@ export abstract class BaseEditorPanel<TData> extends Disposable implements Edito
     };
   }
 
-  protected get mediaFolderName() { return "media"; }
+  public getFileData(): Promise<TData> {
+    return this._rpcProvider.rpc<void, TData>("getFileData");
+  }
+
+  public setFileData(data: TData): Promise<void> {
+    return this._rpcProvider.rpc<TData>("setFileData", data);
+  }
+
+  public applyEdits(editOperations: EditOperation[], notify: boolean): Promise<void> {
+    return this._rpcProvider.rpc("applyEdits", { editOperations, notify });
+  }
+
+  public setInitialData(data: TData, editOperations: EditOperation[]): Promise<void> {
+    return this._rpcProvider.rpc("setInitialData", { data, editOperations });
+  }
 
   protected createRpcProvider(): RpcProvider {
     const rpcProvider = new RpcProvider((message) => this._panel.webview.postMessage(message));
@@ -76,22 +92,6 @@ export abstract class BaseEditorPanel<TData> extends Disposable implements Edito
     });
 
     return rpcProvider;
-  }
-
-  public getFileData(): Promise<TData> {
-    return this._rpcProvider.rpc<void, TData>("getFileData");
-  }
-
-  public setFileData(data: TData): Promise<void> {
-    return this._rpcProvider.rpc<TData>("setFileData", data);
-  }
-
-  public applyEdits(editOperations: EditOperation[], notify: boolean = false): Promise<void> {
-    return this._rpcProvider.rpc("applyEdits", { editOperations, notify });
-  }
-
-  public setInitialData(data: TData, editOperations: EditOperation[]): Promise<void> {
-    return this._rpcProvider.rpc("setInitialData", { data, editOperations });
   }
 
   public dispose() {
