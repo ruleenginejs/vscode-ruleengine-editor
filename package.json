@@ -48,7 +48,7 @@
     "customEditors": [
       {
         "viewType": "ruleengine.ruleEditor",
-        "displayName": "Rule Editor",
+        "displayName": "Rule Engine",
         "selector": [
           {
             "filenamePattern": "*.rule"
@@ -60,11 +60,11 @@
     "commands": [
       {
         "command": "ruleengine.ruleEditor.newFile",
-        "title": "Rule Editor: Create New Rule Document"
+        "title": "Rule Engine: Create New Rule Document"
       },
       {
         "command": "ruleengine.ruleEditor.addStep",
-        "title": "Rule Editor: Add Step",
+        "title": "Rule Engine: Add Step",
         "icon": {
           "dark": "images/icons/dark-plus.svg",
           "light": "images/icons/light-plus.svg"
@@ -72,7 +72,7 @@
       },
       {
         "command": "ruleengine.ruleEditor.zoomIn",
-        "title": "Rule Editor: Zoom In",
+        "title": "Rule Engine: Zoom In",
         "icon": {
           "dark": "images/icons/dark-zoom-in.svg",
           "light": "images/icons/light-zoom-in.svg"
@@ -80,7 +80,7 @@
       },
       {
         "command": "ruleengine.ruleEditor.zoomOut",
-        "title": "Rule Editor: Zoom Out",
+        "title": "Rule Engine: Zoom Out",
         "icon": {
           "dark": "images/icons/dark-zoom-out.svg",
           "light": "images/icons/light-zoom-out.svg"
@@ -88,7 +88,7 @@
       },
       {
         "command": "ruleengine.ruleEditor.fitCanvas",
-        "title": "Rule Editor: Fit Canvas",
+        "title": "Rule Engine: Fit Canvas",
         "icon": {
           "dark": "images/icons/dark-move.svg",
           "light": "images/icons/light-move.svg"
@@ -96,7 +96,7 @@
       },
       {
         "command": "ruleengine.ruleEditor.delete",
-        "title": "Rule Editor: Delete",
+        "title": "Rule Engine: Delete",
         "icon": {
           "dark": "images/icons/dark-trash.svg",
           "light": "images/icons/light-trash.svg"
@@ -104,15 +104,15 @@
       },
       {
         "command": "ruleengine.ruleEditor.zoom50",
-        "title": "Rule Editor: Zoom 50%"
+        "title": "Rule Engine: Zoom 50%"
       },
       {
         "command": "ruleengine.ruleEditor.zoom100",
-        "title": "Rule Editor: Zoom 100%"
+        "title": "Rule Engine: Zoom 100%"
       },
       {
         "command": "ruleengine.ruleEditor.zoom200",
-        "title": "Rule Editor: Zoom 200%"
+        "title": "Rule Engine: Zoom 200%"
       }
     ],
     "menus": {
