@@ -4,8 +4,8 @@ import { getNonce } from '../common/util';
 
 export class RuleEditorPanel extends BaseEditorPanelWithInspector<string> {
 
-  public createStep(type: String, name: String | null, notify: boolean = false): Promise<void> {
-    return this._rpcProvider.rpc("createStep", { type, name, notify });
+  public addStep(type: String, name: String | null, notify: boolean = false): Promise<void> {
+    return this._rpcProvider.rpc("addStep", { type, name, notify });
   }
 
   public deleteSelection(notify: boolean = false): Promise<void> {

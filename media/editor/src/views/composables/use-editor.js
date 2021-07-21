@@ -21,7 +21,7 @@ export default function useEditor(vscode) {
   rpc.provider.registerRpcHandler("getFileData", getFileData);
   rpc.provider.registerRpcHandler("setFileData", setFileData);
   rpc.provider.registerRpcHandler("applyEdits", applyEdits);
-  rpc.provider.registerRpcHandler("createStep", addStep);
+  rpc.provider.registerRpcHandler("addStep", addStep);
   rpc.provider.registerRpcHandler("setZoom", setZoom);
   rpc.provider.registerRpcHandler("fitCanvas", fitCanvas);
   rpc.provider.registerRpcHandler("deleteSelection", deleteSelection);
@@ -74,10 +74,6 @@ export default function useEditor(vscode) {
 
   function applyEdits({ editOperations, notify }) {
     editor.value?.instance.applyEdits(editOperations, !!notify);
-
-    if (!notify) {
-      needUpdateInspector();
-    }
   }
 
   function addStep({ type, name, notify }) {
@@ -109,10 +105,10 @@ export default function useEditor(vscode) {
     rpc.provider.signal("updateInspector", data);
   }
 
-  let i = 0;
   function needUpdateInspector() {
-    updateInspector({ updated: i++ });
+    updateInspector({ updated: 1 });
   }
+  needUpdateInspector();
 
   return {
     editor,

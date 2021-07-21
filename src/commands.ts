@@ -43,7 +43,7 @@ export class AddStepCommand {
       return;
     }
 
-    activeEditorPanel.createStep(type, name, true);
+    activeEditorPanel.addStep(type, name, true);
   }
 }
 
