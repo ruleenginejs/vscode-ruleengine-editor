@@ -15,19 +15,19 @@ export default function useEditor(vscode) {
   const editor = ref(null);
   const zoom = ref(DEFAULT_ZOOM);
   const rpc = new ExthostRpc(vscode);
-
   let pendingInitialData = null;
 
-  rpc.provider.registerRpcHandler("setInitialData", handleSetInitialData);
-  rpc.provider.registerRpcHandler("getFileData", handleGetFileData);
-  rpc.provider.registerRpcHandler("setFileData", handleSetFileData);
-  rpc.provider.registerRpcHandler("applyEdits", handleApplyEdits);
-  rpc.provider.registerRpcHandler("createStep", handleCreateStep);
-  rpc.provider.registerRpcHandler("setZoom", handleSetZoom);
-  rpc.provider.registerRpcHandler("fitCanvas", handleFitCanvas);
-  rpc.provider.registerRpcHandler("deleteSelection", handleDeleteSelection);
-  rpc.provider.registerRpcHandler("zoomIn", handleZoomIn);
-  rpc.provider.registerRpcHandler("zoomOut", handleZoomOut);
+  rpc.provider.registerRpcHandler("setInitialData", setInitialData);
+  rpc.provider.registerRpcHandler("getFileData", getFileData);
+  rpc.provider.registerRpcHandler("setFileData", setFileData);
+  rpc.provider.registerRpcHandler("applyEdits", applyEdits);
+  rpc.provider.registerRpcHandler("createStep", addStep);
+  rpc.provider.registerRpcHandler("setZoom", setZoom);
+  rpc.provider.registerRpcHandler("fitCanvas", fitCanvas);
+  rpc.provider.registerRpcHandler("deleteSelection", deleteSelection);
+  rpc.provider.registerRpcHandler("zoomIn", zoomIn);
+  rpc.provider.registerRpcHandler("zoomOut", zoomOut);
+  rpc.provider.registerSignalHandler("needUpdateInspector", needUpdateInspector);
 
   watch(editor, handlePendingData);
 
@@ -39,25 +39,9 @@ export default function useEditor(vscode) {
     rpc.destroy();
   });
 
-  function handleGetFileData() {
-    if (!editor.value) {
-      return "";
-    }
-    const value = editor.value.instance.getValue();
-    return JSON.stringify(value, null, 2);
-  }
-
-  function handleSetFileData(data) {
-    editor.value?.instance.setValue(data);
-  }
-
-  function handleApplyEdits({ editOperations, notify }) {
-    editor.value?.instance.applyEdits(editOperations, notify);
-  }
-
-  function handleSetInitialData(payload) {
+  function setInitialData(payload) {
     if (editor.value) {
-      setInitialData(payload);
+      setEditorData(payload);
     } else {
       pendingInitialData = { ...payload };
     }
@@ -65,12 +49,12 @@ export default function useEditor(vscode) {
 
   function handlePendingData() {
     if (pendingInitialData && editor.value) {
-      setInitialData(pendingInitialData);
+      setEditorData(pendingInitialData);
       pendingInitialData = null;
     }
   }
 
-  function setInitialData({ data, editOperations }) {
+  function setEditorData({ data, editOperations }) {
     editor.value.instance.setValue(data);
     editor.value.instance.applyEdits(editOperations, false);
     nextTick(() => {
@@ -78,33 +62,56 @@ export default function useEditor(vscode) {
     });
   }
 
-  function handleCreateStep({ type, name, notify }) {
-    editor.value.instance.newNodeInCurrentViewWithOffset(
-      type,
-      NEW_STEP_OFFSET,
-      { name },
-      notify
-    );
+  function getFileData() {
+    if (!editor.value) { return ""; }
+    const value = editor.value.instance.getValue();
+    return JSON.stringify(value, null, 2);
   }
 
-  function handleSetZoom({ value }) {
+  function setFileData(data) {
+    editor.value?.instance.setValue(data);
+  }
+
+  function applyEdits({ editOperations, notify }) {
+    editor.value?.instance.applyEdits(editOperations, !!notify);
+
+    if (!notify) {
+      needUpdateInspector();
+    }
+  }
+
+  function addStep({ type, name, notify }) {
+    editor.value.instance.newNodeInCurrentViewWithOffset(type,
+      NEW_STEP_OFFSET, { name }, notify);
+  }
+
+  function setZoom({ value }) {
     editor.value.instance.setZoom(value);
   }
 
-  function handleZoomIn() {
+  function zoomIn() {
     zoom.value = Math.ceil(zoom.value * 2);
   }
 
-  function handleZoomOut() {
+  function zoomOut() {
     zoom.value = Math.ceil(zoom.value / 2);
   }
 
-  function handleFitCanvas({ maxZoom }) {
+  function fitCanvas({ maxZoom }) {
     editor.value.instance.fitCanvas(maxZoom);
   }
 
-  function handleDeleteSelection({ notify }) {
+  function deleteSelection({ notify }) {
     editor.value.instance.deleteSelectedObject(notify);
+  }
+
+  function updateInspector(data) {
+    rpc.provider.signal("updateInspector", data);
+  }
+
+  let i = 0;
+  function needUpdateInspector() {
+    updateInspector({ updated: i++ });
   }
 
   return {
