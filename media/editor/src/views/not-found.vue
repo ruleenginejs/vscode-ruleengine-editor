@@ -1,6 +1,6 @@
 <template>
   <div class="not-found">
-    <p>No matching content. Please reopen the document.</p>
+    <p>No matching content. Please reopen this document.</p>
   </div>
 </template>
 

@@ -1,8 +1,8 @@
 import * as vscode from 'vscode';
-import { BaseEditorPanel } from '../common/editorPanel';
+import { BaseEditorPanelWithInspector } from '../common/editorPanelWithInspector';
 import { getNonce } from '../common/util';
 
-export class RuleEditorPanel extends BaseEditorPanel<string> {
+export class RuleEditorPanel extends BaseEditorPanelWithInspector<string> {
 
   public createStep(type: String, name: String | null, notify: boolean = false): Promise<void> {
     return this._rpcProvider.rpc("createStep", { type, name, notify });
@@ -48,7 +48,7 @@ export class RuleEditorPanel extends BaseEditorPanel<string> {
       <html lang="en">
       <head>
         <meta charset="UTF-8">
-        <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; img-src ${webview.cspSource}; font-src ${webview.cspSource}; script-src 'nonce-${nonce}' 'unsafe-eval';">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; img-src ${webview.cspSource}; font-src ${webview.cspSource}; script-src 'nonce-${nonce}';">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Rule Editor</title>
 

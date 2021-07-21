@@ -34,6 +34,7 @@
   ],
   "icon": "images/logo.png",
   "activationEvents": [
+    "onView:ruleengine.inpsectorView",
     "onCustomEditor:ruleengine.ruleEditor",
     "onCommand:ruleengine.ruleEditor.newFile"
   ],
@@ -45,6 +46,44 @@
     "virtualWorkspaces": true
   },
   "contributes": {
+    "configuration": [
+      {
+        "title": "Rule Engine",
+        "properties": {
+          "ruleengine.inspector.autoReveal": {
+            "type": "boolean",
+            "default": true,
+            "description": "Whether to auto reveal the inspector when the couter editor is opened."
+          },
+          "ruleengine.inspector.revealDelay": {
+            "type": "number",
+            "minimum": 0,
+            "default": 200,
+            "description": "Delay before auto opening inspector."
+          }
+        }
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "ruleEngineExplorer",
+          "title": "Rule Engine",
+          "icon": "images/icons/panel-icon.svg",
+          "when": "activeCustomEditorId == ruleengine.ruleEditor"
+        }
+      ]
+    },
+    "views": {
+      "ruleEngineExplorer": [
+        {
+          "type": "webview",
+          "id": "ruleengine.inpsectorView",
+          "name": "Inspector",
+          "when": "activeCustomEditorId == ruleengine.ruleEditor"
+        }
+      ]
+    },
     "customEditors": [
       {
         "viewType": "ruleengine.ruleEditor",
