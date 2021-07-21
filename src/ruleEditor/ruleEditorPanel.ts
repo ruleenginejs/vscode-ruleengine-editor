@@ -28,6 +28,13 @@ export class RuleEditorPanel extends BaseEditorPanel<string> {
     return this._rpcProvider.rpc("zoomOut");
   }
 
+  protected getWebviewOptions(): vscode.WebviewOptions {
+    return {
+      ...super.getWebviewOptions(),
+      enableCommandUris: true
+    };
+  }
+
   protected getHtmlForWebview(webview: vscode.Webview): string {
     const scriptPathOnDisk = vscode.Uri.joinPath(this.extensionUri, this.mediaFolderName, 'editor', 'dist', 'assets', 'js', 'app.js');
     const scriptUri = webview.asWebviewUri(scriptPathOnDisk);

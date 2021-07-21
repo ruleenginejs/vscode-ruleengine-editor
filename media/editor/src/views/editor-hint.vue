@@ -1,7 +1,7 @@
 <template>
   <span class="editor-hint">
     Press
-    <a href="" class="editor-hint__add">
+    <a href="command:ruleengine.ruleEditor.addStep" class="editor-hint__add">
       <span class="codicon codicon-plus"></span>
     </a>
     to add new step.
