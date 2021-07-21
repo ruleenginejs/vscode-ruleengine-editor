@@ -38,29 +38,7 @@ export class AddStepCommand {
       return;
     }
 
-    let type: String | null = null;
-    let name: String | null = null;
-
-    switch (result) {
-      case StepType.start:
-        type = "start";
-        break;
-      case StepType.end:
-        type = "end";
-        break;
-      case StepType.error:
-        type = "error";
-        break;
-      case StepType.single:
-        type = "single";
-        name = "New Single";
-        break;
-      case StepType.composite:
-        type = "composite";
-        name = "New Composite";
-        break;
-    }
-
+    const { type, name } = getStepTypeAndName(result!);
     if (!type) {
       return;
     }
@@ -134,4 +112,31 @@ export class ZoomOutCommand {
 
 function findActivePanel(): RuleEditorPanel | undefined {
   return RuleEditorProvider.current?.activeCustomEditor?.getActivePanel();
+}
+
+function getStepTypeAndName(stepType: StepType): { type: String | null, name: String | null } {
+  let type: String | null = null;
+  let name: String | null = null;
+
+  switch (stepType) {
+    case StepType.start:
+      type = "start";
+      break;
+    case StepType.end:
+      type = "end";
+      break;
+    case StepType.error:
+      type = "error";
+      break;
+    case StepType.single:
+      type = "single";
+      name = "New Single";
+      break;
+    case StepType.composite:
+      type = "composite";
+      name = "New Composite";
+      break;
+  }
+
+  return { type, name };
 }
