@@ -5,6 +5,7 @@
       v-model:zoom="zoom"
       :edge-scroll-sizes="edgeScrollSizes"
       @change-value="onChangeValue"
+      @change-selection="onChangeSelection"
     >
       <template #empty-text>
         <editor-hint />
@@ -25,13 +26,15 @@ export default {
   },
   setup() {
     const vscode = inject("$vscode");
-    const { editor, zoom, edgeScrollSizes, onChangeValue } = useEditor(vscode);
+    const { editor, zoom, edgeScrollSizes, onChangeValue, onChangeSelection } =
+      useEditor(vscode);
 
     return {
       editor,
       zoom,
       edgeScrollSizes,
-      onChangeValue
+      onChangeValue,
+      onChangeSelection
     };
   }
 };

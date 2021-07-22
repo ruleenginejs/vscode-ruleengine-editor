@@ -20,6 +20,7 @@ export default function useInspector(vscode) {
   rpc.provider.registerRpcHandler("setData", setData);
 
   function setData(data) {
+    debugger;
     dataModel.value = data;
   }
 

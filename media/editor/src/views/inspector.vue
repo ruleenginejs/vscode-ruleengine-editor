@@ -1,6 +1,6 @@
 <template>
   <div class="inspector-container">
-    {{ dataModel }}
+    <v-editor-sidebar :selected-object="dataModel" @edit="onEdit" />
   </div>
 </template>
 
