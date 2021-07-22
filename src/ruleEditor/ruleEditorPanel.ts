@@ -4,12 +4,12 @@ import { getNonce } from '../common/util';
 
 export class RuleEditorPanel extends BaseEditorPanelWithInspector<string> {
 
-  public addStep(type: String, name: String | null, notify: boolean = false): Promise<void> {
-    return this._rpcProvider.rpc("addStep", { type, name, notify });
+  public addStep(type: String, name: String | null): Promise<void> {
+    return this._rpcProvider.rpc("addStep", { type, name });
   }
 
-  public deleteSelection(notify: boolean = false): Promise<void> {
-    return this._rpcProvider.rpc("deleteSelection", { notify });
+  public deleteSelection(): Promise<void> {
+    return this._rpcProvider.rpc("deleteSelection");
   }
 
   public fitCanvas(maxZoom: number | null = null): Promise<void> {

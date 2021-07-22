@@ -43,7 +43,7 @@ export class AddStepCommand {
       return;
     }
 
-    activeEditorPanel.addStep(type, name, true);
+    activeEditorPanel.addStep(type, name);
   }
 }
 
@@ -52,7 +52,7 @@ export class DeleteCommand {
 
   public static async execute(): Promise<any> {
     const activeEditorPanel = findActivePanel();
-    activeEditorPanel?.deleteSelection(true);
+    activeEditorPanel?.deleteSelection();
   }
 }
 
