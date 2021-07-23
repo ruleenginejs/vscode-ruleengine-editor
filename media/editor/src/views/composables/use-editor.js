@@ -11,7 +11,6 @@ const edgeScrollSizes = Object.freeze({
 });
 
 export default function useEditor(vscode) {
-  debugger;
   const editor = ref(null);
   const zoom = ref(DEFAULT_ZOOM);
   const selectedModel = ref(null);
@@ -19,17 +18,14 @@ export default function useEditor(vscode) {
   const editorRpc = new EditorRpc(vscode, { zoom, editor, selectedModel });
 
   onBeforeUnmount(() => {
-    debugger;
     editorRpc.destroy();
   });
 
   const onChangeValue = (e) => {
-    debugger;
     editorRpc.sendEditSignal(e);
   }
 
   const onChangeSelection = (dataModel) => {
-    debugger;
     selectedModel.value = dataModel;
   }
 

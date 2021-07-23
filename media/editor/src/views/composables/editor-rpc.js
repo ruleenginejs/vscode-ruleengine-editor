@@ -6,7 +6,6 @@ const NEW_STEP_OFFSET = [20, 20];
 
 export class EditorRpc extends ExthostRpc {
   constructor(vscode, { zoom, editor, selectedModel }) {
-    debugger;
     super(vscode);
 
     this.zoom = zoom;
@@ -33,7 +32,6 @@ export class EditorRpc extends ExthostRpc {
 
   _initWatchers() {
     watch(this.editor, () => {
-      debugger;
       if (this.pendingInitialData && this.editor.value) {
         this._setEditorInitialData(this.pendingInitialData);
         this.pendingInitialData = null;
@@ -43,13 +41,11 @@ export class EditorRpc extends ExthostRpc {
     });
 
     watch(this.selectedModel, () => {
-      debugger;
       this.needUpdateInspector();
     })
   }
 
   _registerHandlers() {
-    debugger;
     this.provider.registerRpcHandler("setInitialData", this.setInitialData);
     this.provider.registerRpcHandler("getFileData", this.getFileData);
     this.provider.registerRpcHandler("setFileData", this.setFileData);
@@ -72,7 +68,6 @@ export class EditorRpc extends ExthostRpc {
   }
 
   setInitialData(payload) {
-    debugger;
     if (this.editor.value) {
       this._setEditorInitialData(payload);
     } else {
@@ -80,20 +75,26 @@ export class EditorRpc extends ExthostRpc {
     }
   }
 
+  _setEditorInitialData({ data, editOperations }) {
+    this.editorInstance?.setValue(data);
+    this.editorInstance?.applyEdits(editOperations, false);
+
+    nextTick(() => {
+      this.editorInstance?.fitCanvas(this.editorInstance?.getZoom());
+    });
+  }
+
   getFileData() {
-    debugger;
     if (!this.editorInstance) { return ""; }
     const value = this.editorInstance.getValue();
     return JSON.stringify(value, null, 2);
   }
 
   setFileData(data) {
-    debugger;
     this.editorInstance?.setValue(data);
   }
 
   applyEdits({ editOperations, notify }) {
-    debugger;
     this.editorInstance?.applyEdits(editOperations, !!notify);
 
     if (!notify) {
@@ -102,7 +103,6 @@ export class EditorRpc extends ExthostRpc {
   }
 
   addStep({ type, name }) {
-    debugger;
     this.editorInstance?.newNodeInCurrentViewWithOffset(
       type,
       NEW_STEP_OFFSET,
@@ -112,61 +112,42 @@ export class EditorRpc extends ExthostRpc {
   }
 
   setZoom({ value }) {
-    debugger;
     this.editorInstance?.setZoom(value);
   }
 
   zoomIn() {
-    debugger;
     this.zoom.value = Math.ceil(this.zoom.value * 2);
   }
 
   zoomOut() {
-    debugger;
     this.zoom.value = Math.ceil(this.zoom.value / 2);
   }
 
   fitCanvas({ maxZoom }) {
-    debugger;
     this.editorInstance?.fitCanvas(maxZoom);
   }
 
   deleteSelection() {
-    debugger
     this.editorInstance?.deleteSelectedObject(true);
   }
 
   updateInspector(data) {
-    debugger
     this.provider.signal("updateInspector", data);
   }
 
   needUpdateInspector() {
-    debugger;
     this.updateInspector(modelSerializer(this.selectedModel.value));
   }
 
   sendEditSignal(data) {
-    debugger;
     this.provider.signal("edit", data);
   }
 
-  _setEditorInitialData({ data, editOperations }) {
-    debugger;
-    this.editorInstance?.setValue(data);
-    this.editorInstance?.applyEdits(editOperations, false);
-    nextTick(() => {
-      this.editorInstance?.fitCanvas(this.editorInstance?.getZoom());
-    });
-  }
-
   onChangeModelContent() {
-    debugger;
     this.needUpdateInspector();
   }
 
   destroy() {
-    debugger;
     this.editorModel?.removeChangeListener(this.onChangeModelContent);
     super.destroy();
   }
