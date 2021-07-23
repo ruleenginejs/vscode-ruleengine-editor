@@ -85,10 +85,11 @@ export class Zoom200Command {
 
 export class FitCanvasCommand {
   public static readonly id = "ruleengine.ruleEditor.fitCanvas";
+  private static readonly maxZoom = 100;
 
   public static async execute(): Promise<any> {
     const activeEditorPanel = findActivePanel();
-    activeEditorPanel?.fitCanvas();
+    activeEditorPanel?.fitCanvas(FitCanvasCommand.maxZoom);
   }
 }
 
