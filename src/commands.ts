@@ -131,11 +131,11 @@ function getStepTypeAndName(stepType: StepType): { type: String | null, name: St
       break;
     case StepType.single:
       type = "single";
-      name = "New Single";
+      name = "New Step";
       break;
     case StepType.composite:
       type = "composite";
-      name = "New Composite";
+      name = "New Step";
       break;
   }
 
