@@ -1,3 +1,4 @@
+@import "theme/all";
 @import "tailwind";
 @import "vendor";
 @import "base";

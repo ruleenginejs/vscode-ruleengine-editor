@@ -1,6 +1,6 @@
 import { watch, nextTick } from "vue";
 import { ExthostRpc } from "@/utils/exthost-rpc";
-import { modelSerializer } from "@ruleenginejs/ruleengine-editor-vue";
+import { modelSerializer } from "@ruleenginejs/ruleengine-editor";
 
 const NEW_STEP_OFFSET = [20, 20];
 

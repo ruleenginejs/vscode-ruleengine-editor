@@ -1,1 +1,1 @@
-# vue-rule-editor
+# rule-editor
