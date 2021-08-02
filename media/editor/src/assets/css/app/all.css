@@ -1,5 +1,5 @@
-@import "theme/all";
 @import "tailwind";
 @import "vendor";
+@import "theme/all";
 @import "base";
 @import "app";
