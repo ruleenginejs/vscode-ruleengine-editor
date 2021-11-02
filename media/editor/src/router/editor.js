@@ -1,4 +1,4 @@
-import Editor from "@/views/editor";
+import Editor from "@/views/editor.vue";
 
 export default [
   {

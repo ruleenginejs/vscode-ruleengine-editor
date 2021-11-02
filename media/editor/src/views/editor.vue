@@ -16,7 +16,7 @@
 
 <script>
 import { inject } from "vue";
-import EditorHint from "./editor-hint";
+import EditorHint from "./editor-hint.vue";
 import useEditor from "./composables/use-editor";
 
 export default {

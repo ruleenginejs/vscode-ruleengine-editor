@@ -1,4 +1,4 @@
-import Inspector from "@/views/inspector";
+import Inspector from "@/views/inspector.vue";
 
 export default [
   {
