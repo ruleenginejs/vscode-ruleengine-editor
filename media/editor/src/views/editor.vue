@@ -1,7 +1,7 @@
 <template>
   <div class="editor-container">
     <v-editor
-      ref="editor"
+      ref="editorRef"
       v-model:zoom="zoom"
       :edge-scroll-sizes="edgeScrollSizes"
       @change-value="onChangeValue"
@@ -11,6 +11,13 @@
         <editor-hint />
       </template>
     </v-editor>
+    <v-editor-toolbar
+      ref="toolbarRef"
+      @action-click="onActionClick"
+      v-model:invalidate="toolbarInvalidate"
+      :position-x="initToolbarPosition[0]"
+      :position-y="initToolbarPosition[1]"
+    />
   </div>
 </template>
 
@@ -18,6 +25,7 @@
 import { inject } from "vue";
 import EditorHint from "./editor-hint.vue";
 import useEditor from "./composables/use-editor";
+import useToolbar from "./composables/use-toolbar";
 
 export default {
   name: "editor",
@@ -26,20 +34,33 @@ export default {
   },
   setup() {
     const vscode = inject("$vscode");
+
     const {
-      editor,
+      editorRef,
       zoom,
       edgeScrollSizes,
+      selectedModel,
       onChangeValue,
       onChangeSelection
     } = useEditor(vscode);
 
+    const {
+      toolbarRef,
+      toolbarInvalidate,
+      initToolbarPosition,
+      onActionClick
+    } = useToolbar(editorRef, selectedModel);
+
     return {
-      editor,
+      editorRef,
+      toolbarRef,
       zoom,
       edgeScrollSizes,
+      toolbarInvalidate,
+      initToolbarPosition,
       onChangeValue,
-      onChangeSelection
+      onChangeSelection,
+      onActionClick
     };
   }
 };

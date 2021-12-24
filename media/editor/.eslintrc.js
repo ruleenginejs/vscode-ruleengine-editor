@@ -1,6 +1,12 @@
 module.exports = {
+  env: {
+    browser: true,
+    node: true,
+    'vue/setup-compiler-macros': true
+  },
   extends: [
-    "plugin:vue/vue3-strongly-recommended"
+    "plugin:vue/vue3-strongly-recommended",
+    "eslint:recommended"
   ],
   rules: {
     "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
