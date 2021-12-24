@@ -16,7 +16,7 @@ module.exports = {
     "vue/component-definition-name-casing": ["error", "kebab-case"],
     "vue/max-attributes-per-line": ["error", {
       "singleline": {
-        "max": 5
+        "max": 8
       },
       "multiline": {
         "max": 1
