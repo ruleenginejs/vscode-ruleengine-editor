@@ -15,9 +15,10 @@
       ref="toolbarRef"
       :actions="toolbarActions"
       v-model:invalidate="toolbarInvalidate"
-      v-model:position-x="toolbarPositionX"
-      v-model:position-y="toolbarPositionY"
+      :position-x="toolbarPosition[0]"
+      :position-y="toolbarPosition[1]"
       @action-click="onActionClick"
+      @moveend="onToolbarMoveEnd"
     />
   </div>
 </template>
@@ -49,9 +50,9 @@ export default {
       toolbarRef,
       actions: toolbarActions,
       invalidate: toolbarInvalidate,
-      positionX: toolbarPositionX,
-      positionY: toolbarPositionY,
-      onActionClick
+      initPosition: toolbarPosition,
+      onActionClick,
+      onMoveEnd: onToolbarMoveEnd
     } = useToolbar(editorRef, selectedModel);
 
     return {
@@ -61,11 +62,11 @@ export default {
       edgeScrollSizes,
       toolbarActions,
       toolbarInvalidate,
-      toolbarPositionX,
-      toolbarPositionY,
+      toolbarPosition,
       onChangeValue,
       onChangeSelection,
-      onActionClick
+      onActionClick,
+      onToolbarMoveEnd
     };
   }
 };

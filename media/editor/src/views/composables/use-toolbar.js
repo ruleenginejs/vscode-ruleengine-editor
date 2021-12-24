@@ -25,8 +25,7 @@ const actionDefs = [
 export default function useToolbar(editorRef, selectedModel) {
   const toolbarRef = ref(null);
   const invalidate = ref(false);
-  const positionX = ref(INIT_TOOLBAR_POSITION[0]);
-  const positionY = ref(INIT_TOOLBAR_POSITION[1]);
+  const initPosition = ref(INIT_TOOLBAR_POSITION);
   const resizeHandler = debounce(onResize, RESIZE_DELAY);
   const actions = reactive(actionDefs);
 
@@ -63,9 +62,6 @@ export default function useToolbar(editorRef, selectedModel) {
     toolbarRef.value?.enableAction(toolbarDefaults.defaultActionKey.addError, enabled);
   });
 
-  watch([positionX, positionY], () => {
-  });
-
   onMounted(() => {
     window.addEventListener("resize", resizeHandler);
     toolbar.registerActionHandler(actionKeys.addStep, handleAddStep);
@@ -86,6 +82,10 @@ export default function useToolbar(editorRef, selectedModel) {
     }
   }
 
+  function onMoveEnd(e) {
+    console.log(e);
+  }
+
   function handleAddStep() {
     const a = document.createElement("a");
     a.href = "command:ruleengine.ruleEditor.addStep";
@@ -98,8 +98,7 @@ export default function useToolbar(editorRef, selectedModel) {
     toolbarRef,
     actions,
     invalidate,
-    positionX,
-    positionY,
+    initPosition,
     onActionClick
   }
 }
