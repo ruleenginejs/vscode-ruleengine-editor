@@ -1,15 +1,34 @@
-import { ref, computed, onMounted, onUnmounted, watchEffect } from "vue";
+import { ref, computed, onMounted, onUnmounted, watchEffect, watch, reactive } from "vue";
 import { toolbar, toolbarDefaults } from "@ruleenginejs/editor";
 import debounce from "debounce";
 
 const RESIZE_DELAY = 300;
-const INIT_TOOLBAR_POSITION = [-15, 15];
+const INIT_TOOLBAR_POSITION = [400, 15];
+
+const actionKeys = {
+  addStep: "addStep"
+};
+
+const actionDefs = [
+  {
+    id: actionKeys.addStep,
+    icon: "plus",
+    title: "Add Step",
+    label: "Add Step",
+    disabled: false,
+    visible: true,
+    draggable: false,
+    order: 1
+  }
+];
 
 export default function useToolbar(editorRef, selectedModel) {
   const toolbarRef = ref(null);
-  const toolbarInvalidate = ref(false);
+  const invalidate = ref(false);
+  const positionX = ref(INIT_TOOLBAR_POSITION[0]);
+  const positionY = ref(INIT_TOOLBAR_POSITION[1]);
   const resizeHandler = debounce(onResize, RESIZE_DELAY);
-  const initToolbarPosition = INIT_TOOLBAR_POSITION;
+  const actions = reactive(actionDefs);
 
   const canDeleteSelectedModel = computed(() => {
     return editorRef.value
@@ -44,16 +63,21 @@ export default function useToolbar(editorRef, selectedModel) {
     toolbarRef.value?.enableAction(toolbarDefaults.defaultActionKey.addError, enabled);
   });
 
+  watch([positionX, positionY], () => {
+  });
+
   onMounted(() => {
     window.addEventListener("resize", resizeHandler);
+    toolbar.registerActionHandler(actionKeys.addStep, handleAddStep);
   });
 
   onUnmounted(() => {
     window.removeEventListener("resize", resizeHandler);
+    toolbar.unregisterActionHandler(actionKeys.addStep, handleAddStep);
   });
 
   function onResize() {
-    toolbarInvalidate.value = true;
+    invalidate.value = true;
   }
 
   function onActionClick(action, e) {
@@ -62,10 +86,20 @@ export default function useToolbar(editorRef, selectedModel) {
     }
   }
 
+  function handleAddStep() {
+    const a = document.createElement("a");
+    a.href = "command:ruleengine.ruleEditor.addStep";
+    document.body.appendChild(a);
+    a.click();
+    a.parentNode.removeChild(a);
+  }
+
   return {
     toolbarRef,
-    toolbarInvalidate,
-    initToolbarPosition,
+    actions,
+    invalidate,
+    positionX,
+    positionY,
     onActionClick
   }
 }

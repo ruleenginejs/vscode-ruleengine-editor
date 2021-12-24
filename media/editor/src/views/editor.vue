@@ -13,10 +13,11 @@
     </v-editor>
     <v-editor-toolbar
       ref="toolbarRef"
-      @action-click="onActionClick"
+      :actions="toolbarActions"
       v-model:invalidate="toolbarInvalidate"
-      :position-x="initToolbarPosition[0]"
-      :position-y="initToolbarPosition[1]"
+      v-model:position-x="toolbarPositionX"
+      v-model:position-y="toolbarPositionY"
+      @action-click="onActionClick"
     />
   </div>
 </template>
@@ -46,8 +47,10 @@ export default {
 
     const {
       toolbarRef,
-      toolbarInvalidate,
-      initToolbarPosition,
+      actions: toolbarActions,
+      invalidate: toolbarInvalidate,
+      positionX: toolbarPositionX,
+      positionY: toolbarPositionY,
       onActionClick
     } = useToolbar(editorRef, selectedModel);
 
@@ -56,8 +59,10 @@ export default {
       toolbarRef,
       zoom,
       edgeScrollSizes,
+      toolbarActions,
       toolbarInvalidate,
-      initToolbarPosition,
+      toolbarPositionX,
+      toolbarPositionY,
       onChangeValue,
       onChangeSelection,
       onActionClick
