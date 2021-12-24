@@ -19,11 +19,11 @@ const stepQuickPickItems: Array<vscode.QuickPickItem> = [
   },
   {
     label: StepType.error,
-    detail: "This step run when error occurs in handlers."
+    detail: "This step run when error occurs."
   },
   {
     label: StepType.single,
-    detail: "This step run handler if specified."
+    detail: "This step run handler."
   },
   {
     label: StepType.composite,

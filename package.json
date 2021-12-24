@@ -46,14 +46,14 @@
   "contributes": {
     "configuration": [
       {
-        "title": "Rule Engine",
+        "title": "Rule Engine Editor",
         "properties": {
-          "ruleengine.inspector.autoReveal": {
+          "ruleengine.ruleEditor.inspector.autoReveal": {
             "type": "boolean",
             "default": true,
             "description": "Whether to auto reveal the inspector when the couter editor is opened."
           },
-          "ruleengine.inspector.revealDelay": {
+          "ruleengine.ruleEditor.inspector.revealDelay": {
             "type": "number",
             "minimum": 0,
             "default": 200,
@@ -67,7 +67,7 @@
         {
           "id": "ruleEngineExplorer",
           "title": "Rule Engine",
-          "icon": "images/icons/panel-icon.svg",
+          "icon": "$(note)",
           "when": "activeCustomEditorId == ruleengine.ruleEditor"
         }
       ]
@@ -102,42 +102,27 @@
       {
         "command": "ruleengine.ruleEditor.addStep",
         "title": "Rule Engine: Add Step",
-        "icon": {
-          "dark": "images/icons/dark-plus.svg",
-          "light": "images/icons/light-plus.svg"
-        }
+        "icon": "$(plus)"
       },
       {
         "command": "ruleengine.ruleEditor.zoomIn",
         "title": "Rule Engine: Zoom In",
-        "icon": {
-          "dark": "images/icons/dark-zoom-in.svg",
-          "light": "images/icons/light-zoom-in.svg"
-        }
+        "icon": "$(zoom-in)"
       },
       {
         "command": "ruleengine.ruleEditor.zoomOut",
         "title": "Rule Engine: Zoom Out",
-        "icon": {
-          "dark": "images/icons/dark-zoom-out.svg",
-          "light": "images/icons/light-zoom-out.svg"
-        }
+        "icon": "$(zoom-out)"
       },
       {
         "command": "ruleengine.ruleEditor.fitCanvas",
         "title": "Rule Engine: Fit Canvas",
-        "icon": {
-          "dark": "images/icons/dark-move.svg",
-          "light": "images/icons/light-move.svg"
-        }
+        "icon": "$(move)"
       },
       {
         "command": "ruleengine.ruleEditor.delete",
         "title": "Rule Engine: Delete",
-        "icon": {
-          "dark": "images/icons/dark-trash.svg",
-          "light": "images/icons/light-trash.svg"
-        }
+        "icon": "$(trash)"
       },
       {
         "command": "ruleengine.ruleEditor.zoom50",
@@ -191,42 +176,42 @@
         {
           "command": "ruleengine.ruleEditor.addStep",
           "when": "activeCustomEditorId == ruleengine.ruleEditor",
-          "group": "navigation@-10"
-        },
-        {
-          "command": "ruleengine.ruleEditor.fitCanvas",
-          "when": "activeCustomEditorId == ruleengine.ruleEditor",
-          "group": "navigation@-9"
+          "group": "6_close@1"
         },
         {
           "command": "ruleengine.ruleEditor.zoomIn",
           "when": "activeCustomEditorId == ruleengine.ruleEditor",
-          "group": "navigation@-8"
+          "group": "7_close@1"
         },
         {
           "command": "ruleengine.ruleEditor.zoomOut",
           "when": "activeCustomEditorId == ruleengine.ruleEditor",
-          "group": "navigation@-7"
+          "group": "7_close@2"
         },
         {
-          "command": "ruleengine.ruleEditor.delete",
+          "command": "ruleengine.ruleEditor.fitCanvas",
           "when": "activeCustomEditorId == ruleengine.ruleEditor",
-          "group": "navigation@-6"
+          "group": "7_close@3"
         },
         {
           "command": "ruleengine.ruleEditor.zoom50",
           "when": "activeCustomEditorId == ruleengine.ruleEditor",
-          "group": "6_close@1"
+          "group": "7_close@4"
         },
         {
           "command": "ruleengine.ruleEditor.zoom100",
           "when": "activeCustomEditorId == ruleengine.ruleEditor",
-          "group": "6_close@2"
+          "group": "7_close@5"
         },
         {
           "command": "ruleengine.ruleEditor.zoom200",
           "when": "activeCustomEditorId == ruleengine.ruleEditor",
-          "group": "6_close@3"
+          "group": "7_close@6"
+        },
+        {
+          "command": "ruleengine.ruleEditor.delete",
+          "when": "activeCustomEditorId == ruleengine.ruleEditor",
+          "group": "8_close@1"
         }
       ]
     }

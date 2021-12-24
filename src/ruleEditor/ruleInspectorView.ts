@@ -28,11 +28,11 @@ export class RuleInspectorView extends BaseInspectorView {
   }
 
   public get isAutoReveal(): boolean {
-    return vscode.workspace.getConfiguration("ruleengine.inspector").get("autoReveal", false);
+    return vscode.workspace.getConfiguration("ruleengine.ruleEditor.inspector").get("autoReveal", false);
   }
 
   public get revealDelay(): number {
-    return vscode.workspace.getConfiguration("ruleengine.inspector").get("revealDelay", 0);
+    return vscode.workspace.getConfiguration("ruleengine.ruleEditor.inspector").get("revealDelay", 0);
   }
 
   protected createView(webviewView: vscode.WebviewView, extensionUri: vscode.Uri): InspectorWebviewView {
