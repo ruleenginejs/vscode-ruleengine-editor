@@ -7,7 +7,7 @@
       @change-value="onChangeValue"
       @change-selection="onChangeSelection"
     >
-      <template #empty-text>
+      <template #empty>
         <editor-hint />
       </template>
     </v-editor>
@@ -26,8 +26,13 @@ export default {
   },
   setup() {
     const vscode = inject("$vscode");
-    const { editor, zoom, edgeScrollSizes, onChangeValue, onChangeSelection } =
-      useEditor(vscode);
+    const {
+      editor,
+      zoom,
+      edgeScrollSizes,
+      onChangeValue,
+      onChangeSelection
+    } = useEditor(vscode);
 
     return {
       editor,

@@ -5,6 +5,7 @@
   "scripts": {
     "start": "npm run dev",
     "dev": "vite",
+    "watch": "vite build --watch",
     "build": "vite build",
     "serve": "vite preview"
   },

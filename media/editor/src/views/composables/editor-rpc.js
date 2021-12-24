@@ -138,7 +138,13 @@ export class EditorRpc extends ExthostRpc {
   }
 
   needUpdateInspector() {
-    this.updateInspector(sidebarModelSerializer(this.selectedModel.value));
+    if (this.editorModel) {
+      this.updateInspector(
+        sidebarModelSerializer(this.editorModel, this.selectedModel.value)
+      );
+    } else {
+      this.updateInspector(null);
+    }
   }
 
   sendEditSignal(data) {
