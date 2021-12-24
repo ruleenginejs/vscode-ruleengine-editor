@@ -1,6 +1,4 @@
 module.exports = {
-  purge: false,
-  darkMode: false,
   theme: {
     extend: {
       colors: {
@@ -20,6 +18,5 @@ module.exports = {
       }
     }
   },
-  variants: {},
   plugins: []
 }

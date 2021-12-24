@@ -2,9 +2,9 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import vscode from "./plugins/vscode";
-import RuleEngineEditor from "@ruleenginejs/ruleengine-editor";
-import "@ruleenginejs/ruleengine-ui/dist/vscode.theme.css";
-import "@ruleenginejs/ruleengine-editor/dist/style.css";
+import RuleEngineEditor from "@ruleenginejs/editor";
+import "@ruleenginejs/ui/dist/vscode.theme.css";
+import "@ruleenginejs/editor/dist/style.css";
 import "@vscode/codicons/dist/codicon.css";
 
 const app = createApp(App);

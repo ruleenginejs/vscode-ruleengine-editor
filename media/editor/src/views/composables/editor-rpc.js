@@ -1,8 +1,9 @@
 import { watch, nextTick } from "vue";
 import { ExthostRpc } from "@/utils/exthost-rpc";
-import { modelSerializer } from "@ruleenginejs/ruleengine-editor";
+import { sidebarModelSerializer } from "@ruleenginejs/editor";
 
-const NEW_STEP_OFFSET = [20, 20];
+const NEW_NODE_START_OFFSET = [20, 20];
+const NEW_NODE_CASCADE_OFFSET = [15, 15];
 
 export class EditorRpc extends ExthostRpc {
   constructor(vscode, { zoom, editor, selectedModel }) {
@@ -103,9 +104,10 @@ export class EditorRpc extends ExthostRpc {
   }
 
   addStep({ type, name }) {
-    this.editorInstance?.newNodeInCurrentViewWithOffset(
+    this.editorInstance?.newNodeInCurrentViewWithCascade(
       type,
-      NEW_STEP_OFFSET,
+      NEW_NODE_START_OFFSET,
+      NEW_NODE_CASCADE_OFFSET,
       { name },
       true
     );
@@ -136,7 +138,7 @@ export class EditorRpc extends ExthostRpc {
   }
 
   needUpdateInspector() {
-    this.updateInspector(modelSerializer(this.selectedModel.value));
+    this.updateInspector(sidebarModelSerializer(this.selectedModel.value));
   }
 
   sendEditSignal(data) {

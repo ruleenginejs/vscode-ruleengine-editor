@@ -1,4 +1,3 @@
-@import "tailwind";
+@import "tailwindcss/base";
 @import "theme/all";
-@import "base";
 @import "app";
