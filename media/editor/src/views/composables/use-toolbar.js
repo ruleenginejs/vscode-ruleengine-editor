@@ -25,7 +25,7 @@ const actionDefs = [
 
 export default function useToolbar(editorRef, selectedModel, rpc) {
   const toolbarRef = ref(null);
-  const visible = ref(false);
+  const visible = ref(true);
   const invalidate = ref(false);
   const vertical = ref(false);
   const showActionLabel = ref(false);
