@@ -15,18 +15,18 @@ export default function useEditor(vscode) {
   const zoom = ref(DEFAULT_ZOOM);
   const selectedModel = ref(null);
 
-  const editorRpc = new EditorRpc(vscode, {
+  const rpc = new EditorRpc(vscode, {
     zoom,
     editor: editorRef,
     selectedModel
   });
 
   onBeforeUnmount(() => {
-    editorRpc.destroy();
+    rpc.destroy();
   });
 
   function onChangeValue(e) {
-    editorRpc.sendEditSignal(e);
+    rpc.sendEditSignal(e);
   }
 
   function onChangeSelection(dataModel) {
@@ -38,6 +38,7 @@ export default function useEditor(vscode) {
     zoom,
     edgeScrollSizes,
     selectedModel,
+    rpc,
     onChangeValue,
     onChangeSelection
   }

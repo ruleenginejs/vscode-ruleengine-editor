@@ -1,3 +1,40 @@
+<script>
+export default {
+  name: "editor"
+};
+</script>
+
+<script setup>
+import { inject } from "vue";
+import EditorHint from "./editor-hint.vue";
+import useEditor from "./composables/use-editor";
+import useToolbar from "./composables/use-toolbar";
+
+const vscode = inject("$vscode");
+
+const {
+  editorRef,
+  zoom,
+  edgeScrollSizes,
+  selectedModel,
+  rpc,
+  onChangeValue,
+  onChangeSelection
+} = useEditor(vscode);
+
+const {
+  toolbarRef,
+  actions: toolbarActions,
+  invalidate: toolbarInvalidate,
+  position: toolbarPosition,
+  visible: toolbarVisible,
+  vertical: toolbarVertical,
+  showActionLabel: toolbarShowActionLabel,
+  onActionClick: onToolbarAction,
+  onMoveEnd: onToolbarMoveEnd
+} = useToolbar(editorRef, selectedModel, rpc);
+</script>
+
 <template>
   <div class="editor-container">
     <v-editor
@@ -12,65 +49,19 @@
       </template>
     </v-editor>
     <v-editor-toolbar
+      v-if="toolbarVisible"
       ref="toolbarRef"
       :actions="toolbarActions"
       v-model:invalidate="toolbarInvalidate"
-      :position-x="toolbarPosition[0]"
-      :position-y="toolbarPosition[1]"
-      @action-click="onActionClick"
+      v-model:vertical="toolbarVertical"
+      v-model:show-action-label="toolbarShowActionLabel"
+      :position-x="toolbarPosition.x"
+      :position-y="toolbarPosition.y"
+      @action-click="onToolbarAction"
       @moveend="onToolbarMoveEnd"
     />
   </div>
 </template>
-
-<script>
-import { inject } from "vue";
-import EditorHint from "./editor-hint.vue";
-import useEditor from "./composables/use-editor";
-import useToolbar from "./composables/use-toolbar";
-
-export default {
-  name: "editor",
-  components: {
-    EditorHint
-  },
-  setup() {
-    const vscode = inject("$vscode");
-
-    const {
-      editorRef,
-      zoom,
-      edgeScrollSizes,
-      selectedModel,
-      onChangeValue,
-      onChangeSelection
-    } = useEditor(vscode);
-
-    const {
-      toolbarRef,
-      actions: toolbarActions,
-      invalidate: toolbarInvalidate,
-      initPosition: toolbarPosition,
-      onActionClick,
-      onMoveEnd: onToolbarMoveEnd
-    } = useToolbar(editorRef, selectedModel);
-
-    return {
-      editorRef,
-      toolbarRef,
-      zoom,
-      edgeScrollSizes,
-      toolbarActions,
-      toolbarInvalidate,
-      toolbarPosition,
-      onChangeValue,
-      onChangeSelection,
-      onActionClick,
-      onToolbarMoveEnd
-    };
-  }
-};
-</script>
 
 <style>
 @import "editor";

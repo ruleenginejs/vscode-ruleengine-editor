@@ -1,9 +1,10 @@
 import { ref, computed, onMounted, onUnmounted, watchEffect, watch, reactive } from "vue";
 import { toolbar, toolbarDefaults } from "@ruleenginejs/editor";
 import debounce from "debounce";
+import { executeCommand } from "@/utils/exthost";
 
 const RESIZE_DELAY = 300;
-const INIT_TOOLBAR_POSITION = [400, 15];
+const DEFAULT_POSITION = { x: 400, y: 15 };
 
 const actionKeys = {
   addStep: "addStep"
@@ -22,10 +23,13 @@ const actionDefs = [
   }
 ];
 
-export default function useToolbar(editorRef, selectedModel) {
+export default function useToolbar(editorRef, selectedModel, rpc) {
   const toolbarRef = ref(null);
+  const visible = ref(false);
   const invalidate = ref(false);
-  const initPosition = ref(INIT_TOOLBAR_POSITION);
+  const vertical = ref(false);
+  const showActionLabel = ref(false);
+  const position = reactive(DEFAULT_POSITION);
   const resizeHandler = debounce(onResize, RESIZE_DELAY);
   const actions = reactive(actionDefs);
 
@@ -83,22 +87,21 @@ export default function useToolbar(editorRef, selectedModel) {
   }
 
   function onMoveEnd(e) {
-    console.log(e);
   }
 
   function handleAddStep() {
-    const a = document.createElement("a");
-    a.href = "command:ruleengine.ruleEditor.addStep";
-    document.body.appendChild(a);
-    a.click();
-    a.parentNode.removeChild(a);
+    executeCommand("ruleengine.ruleEditor.addStep");
   }
 
   return {
     toolbarRef,
     actions,
     invalidate,
-    initPosition,
-    onActionClick
+    position,
+    vertical,
+    visible,
+    showActionLabel,
+    onActionClick,
+    onMoveEnd
   }
 }
