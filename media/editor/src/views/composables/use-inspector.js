@@ -1,9 +1,12 @@
 import { ref, onBeforeUnmount } from "vue"
 import { ExthostRpc } from "@/utils/exthost-rpc";
 
+const DEFAULT_EDIT_DELAY = 100;
+
 export default function useInspector(vscode) {
   const rpc = new ExthostRpc(vscode);
   const dataModel = ref(null);
+  const editDelay = ref(DEFAULT_EDIT_DELAY);
 
   const onEdit = (e) => {
     rpc.provider.signal("edit", e);
@@ -27,6 +30,7 @@ export default function useInspector(vscode) {
 
   return {
     dataModel,
+    editDelay,
     onEdit
   }
 }
