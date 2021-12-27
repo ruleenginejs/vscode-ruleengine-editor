@@ -1,9 +1,9 @@
-import NotFound from "@/views/not-found.vue";
+import ReNotFound from "@/views/re-not-found.vue";
 
 export default [
   {
     path: "/:pathMatch(.*)",
     name: "not-found",
-    component: NotFound
+    component: ReNotFound
   }
 ]

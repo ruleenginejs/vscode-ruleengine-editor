@@ -4,12 +4,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "not-found"
-};
-</script>
-
 <style>
 @import "not-found";
 </style>

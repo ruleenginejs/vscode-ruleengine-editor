@@ -1,17 +1,10 @@
-<script>
-export default {
-  name: "editor"
-};
-</script>
-
 <script setup>
 import { inject } from "vue";
-import EditorHint from "./editor-hint.vue";
+import ReEditorHint from "./re-editor-hint.vue";
 import useEditor from "./composables/use-editor";
 import useToolbar from "./composables/use-toolbar";
 
 const vscode = inject("$vscode");
-
 const {
   editorRef,
   zoom,
@@ -45,7 +38,7 @@ const {
       @change-selection="onChangeSelection"
     >
       <template #empty>
-        <editor-hint />
+        <re-editor-hint />
       </template>
     </v-editor>
     <v-editor-toolbar

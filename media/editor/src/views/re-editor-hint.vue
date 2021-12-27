@@ -7,9 +7,3 @@
     to add new step.
   </span>
 </template>
-
-<script>
-export default {
-  name: "editor-hint"
-};
-</script>

@@ -1,9 +1,9 @@
-import Inspector from "@/views/inspector.vue";
+import ReInspector from "@/views/re-inspector.vue";
 
 export default [
   {
     path: "/inspector",
     name: "inspector",
-    component: Inspector
+    component: ReInspector
   }
 ]
