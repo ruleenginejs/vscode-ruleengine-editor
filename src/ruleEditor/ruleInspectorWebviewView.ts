@@ -1,8 +1,8 @@
 import * as vscode from 'vscode';
-import { BaseInspectorWebviewView } from "../common/inspectorWebviewView";
 import { getNonce } from '../common/util';
+import { RuleInspectorRpc } from './ruleInspectorRpc';
 
-export class RuleInspectorWebviewView extends BaseInspectorWebviewView {
+export class RuleInspectorWebviewView extends RuleInspectorRpc {
 
   protected getHtmlForWebview(webview: vscode.Webview): string {
     const scriptPathOnDisk = vscode.Uri.joinPath(this.extensionUri, "media", 'editor', 'dist', 'index.js');

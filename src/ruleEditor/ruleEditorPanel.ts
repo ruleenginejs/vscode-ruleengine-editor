@@ -1,32 +1,8 @@
 import * as vscode from 'vscode';
-import { BaseEditorPanelWithInspector } from '../common/editorPanelWithInspector';
 import { getNonce } from '../common/util';
+import { RuleEditorRpc } from './ruleEditorRpc';
 
-export class RuleEditorPanel extends BaseEditorPanelWithInspector<string> {
-
-  public addStep(type: String, name: String | null): Promise<void> {
-    return this._rpcProvider.rpc("addStep", { type, name });
-  }
-
-  public deleteSelection(): Promise<void> {
-    return this._rpcProvider.rpc("deleteSelection");
-  }
-
-  public fitCanvas(maxZoom: number | null = null): Promise<void> {
-    return this._rpcProvider.rpc("fitCanvas", { maxZoom });
-  }
-
-  public setZoom(value: number): Promise<void> {
-    return this._rpcProvider.rpc("setZoom", { value });
-  }
-
-  public zoomIn(): Promise<void> {
-    return this._rpcProvider.rpc("zoomIn");
-  }
-
-  public zoomOut(): Promise<void> {
-    return this._rpcProvider.rpc("zoomOut");
-  }
+export class RuleEditorPanel extends RuleEditorRpc {
 
   protected getWebviewOptions(): vscode.WebviewOptions {
     return {

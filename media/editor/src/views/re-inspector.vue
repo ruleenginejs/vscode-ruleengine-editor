@@ -6,13 +6,19 @@ const vscode = inject("$vscode");
 const {
   dataModel,
   editDelay,
+  provider,
   onEdit
 } = useInspector(vscode);
 </script>
 
 <template>
   <div class="inspector-container">
-    <v-editor-sidebar :selected-object="dataModel" :edit-delay="editDelay" @edit="onEdit" />
+    <v-editor-sidebar
+      :selected-object="dataModel"
+      :edit-delay="editDelay"
+      :provider="provider"
+      @edit="onEdit"
+    />
   </div>
 </template>
 
