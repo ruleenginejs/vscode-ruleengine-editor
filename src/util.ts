@@ -14,10 +14,6 @@ const stepQuickPickItems: Array<vscode.QuickPickItem> = [
     detail: "This step indicates start of rule."
   },
   {
-    label: StepType.end,
-    detail: "This step indicates end of rule."
-  },
-  {
     label: StepType.error,
     detail: "This step run when error occurs."
   },
@@ -26,8 +22,8 @@ const stepQuickPickItems: Array<vscode.QuickPickItem> = [
     detail: "This step run handler."
   },
   {
-    label: StepType.composite,
-    detail: "This step contains other steps."
+    label: StepType.end,
+    detail: "This step indicates end of rule."
   }
 ];
 
