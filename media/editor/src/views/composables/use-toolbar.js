@@ -1,4 +1,4 @@
-import { ref, computed, onMounted, onUnmounted, watchEffect, watch, reactive } from "vue";
+import { ref, computed, onMounted, onUnmounted, watchEffect, reactive } from "vue";
 import { toolbar, toolbarDefaults } from "@ruleenginejs/editor";
 import debounce from "debounce";
 import { executeCommand } from "@/utils/exthost";
@@ -23,7 +23,7 @@ const actionDefs = [
   }
 ];
 
-export default function useToolbar(editorRef, selectedModel, rpc) {
+export default function useToolbar(editorRef, selectedModel) {
   const toolbarRef = ref(null);
   const visible = ref(true);
   const invalidate = ref(false);
@@ -33,23 +33,14 @@ export default function useToolbar(editorRef, selectedModel, rpc) {
   const resizeHandler = debounce(onResize, RESIZE_DELAY);
   const actions = reactive(actionDefs);
 
-  const canDeleteSelectedModel = computed(() => {
-    return editorRef.value
-      ? editorRef.value.instance.canDeleteModelObject(selectedModel.value)
-      : false;
-  });
+  const canDeleteSelectedModel = computed(() =>
+    editorRef.value ? editorRef.value.instance.canDeleteModelObject(selectedModel.value) : false);
 
-  const canAddStartNode = computed(() => {
-    return editorRef.value
-      ? !editorRef.value.instance.getModel().startNode
-      : false;
-  });
+  const canAddStartNode = computed(() =>
+    editorRef.value ? !editorRef.value.instance.getModel().startNode : false);
 
-  const canAddErrorNode = computed(() => {
-    return editorRef.value
-      ? !editorRef.value.instance.getModel().errorNode
-      : false;
-  });
+  const canAddErrorNode = computed(() =>
+    editorRef.value ? !editorRef.value.instance.getModel().errorNode : false);
 
   watchEffect(() => {
     const enabled = canDeleteSelectedModel.value;
@@ -86,7 +77,7 @@ export default function useToolbar(editorRef, selectedModel, rpc) {
     }
   }
 
-  function onMoveEnd(e) {
+  function onMoveEnd() {
   }
 
   function handleAddStep() {
