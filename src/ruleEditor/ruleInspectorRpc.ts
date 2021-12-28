@@ -1,5 +1,8 @@
 import { BaseInspectorWebviewView } from "../common/inspectorWebviewView";
 import { RpcProvider } from 'worker-rpc';
+import { suggestScriptFiles } from "../filesystem";
+import { RuleEditorProvider } from "./ruleEditorProvider";
+import { dirname } from "path";
 
 export abstract class RuleInspectorRpc extends BaseInspectorWebviewView {
 
@@ -13,11 +16,10 @@ export abstract class RuleInspectorRpc extends BaseInspectorWebviewView {
     text: string,
     value: string
   }>> {
-    return Promise.resolve([
-      {
-        text: searchQuery,
-        value: `./${searchQuery}`
-      }
-    ]);
+    const activeDocument = RuleEditorProvider.current?.activeCustomEditor?.document;
+    const baseAbsolutePath = activeDocument ? dirname(activeDocument.uri.fsPath) : undefined;
+    return suggestScriptFiles(searchQuery, {
+      baseAbsolutePath
+    });
   }
 }

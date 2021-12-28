@@ -111,6 +111,6 @@ export class ZoomOutCommand {
   }
 }
 
-export function findActivePanel(): RuleEditorPanel | undefined {
+function findActivePanel(): RuleEditorPanel | undefined {
   return RuleEditorProvider.current?.activeCustomEditor?.getActivePanel();
 }
