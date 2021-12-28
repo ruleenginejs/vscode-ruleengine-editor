@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { isDefined } from './common/types';
 import { RuleEditorPanel } from './ruleEditor/ruleEditorPanel';
 import { RuleEditorProvider } from './ruleEditor/ruleEditorProvider';
-import { showStepQuickPick, StepType } from './util';
+import { getStepTypeAndName, showStepQuickPick } from './util';
 
 export class NewRuleFileCommand {
   public static readonly id = "ruleengine.ruleEditor.newFile";
@@ -111,33 +111,6 @@ export class ZoomOutCommand {
   }
 }
 
-function findActivePanel(): RuleEditorPanel | undefined {
+export function findActivePanel(): RuleEditorPanel | undefined {
   return RuleEditorProvider.current?.activeCustomEditor?.getActivePanel();
-}
-
-function getStepTypeAndName(stepType: StepType): { type: String | null, name: String | null } {
-  let type: String | null = null;
-  let name: String | null = null;
-
-  switch (stepType) {
-    case StepType.start:
-      type = "start";
-      break;
-    case StepType.end:
-      type = "end";
-      break;
-    case StepType.error:
-      type = "error";
-      break;
-    case StepType.single:
-      type = "single";
-      name = "New Step";
-      break;
-    case StepType.composite:
-      type = "composite";
-      name = "New Step";
-      break;
-  }
-
-  return { type, name };
 }
