@@ -44,8 +44,8 @@ function _buildPattern(query: string, fileExtensions?: string[]): string {
   return pattern;
 }
 
-const _backslashRegexp = new RegExp("\\\\", 'g');
+const BACKSLASH = new RegExp("\\\\", 'g');
 
 export function replaceBackslash(path: string): string {
-  return path.replace(_backslashRegexp, "/");
+  return path.replace(BACKSLASH, "/");
 }
