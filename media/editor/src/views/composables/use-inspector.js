@@ -2,13 +2,15 @@ import { ref, onBeforeUnmount, markRaw } from "vue"
 import { ExthostRpc } from "@/utils/exthost-rpc";
 
 const DEFAULT_EDIT_DELAY = 100;
+const DEFAULT_COMPLETION_DELAY = 0;
 
 export default function useInspector(vscode) {
   const rpc = new ExthostRpc(vscode);
   const dataModel = ref(null);
   const editDelay = ref(DEFAULT_EDIT_DELAY);
   const provider = ref(markRaw({
-    suggestScriptFiles
+    suggestScriptFiles,
+    getCompletionDelay
   }));
 
   const onEdit = (e) => {
@@ -31,6 +33,10 @@ export default function useInspector(vscode) {
 
   function suggestScriptFiles(searchQuery) {
     return rpc.provider.rpc("suggestScriptFiles", searchQuery);
+  }
+
+  function getCompletionDelay() {
+    return DEFAULT_COMPLETION_DELAY;
   }
 
   ready();
