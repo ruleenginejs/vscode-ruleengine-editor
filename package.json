@@ -58,6 +58,21 @@
             "minimum": 0,
             "default": 200,
             "description": "Delay before auto opening inspector."
+          },
+          "ruleengine.ruleEditor.findFiles.excludeDirs": {
+            "type": "string",
+            "default": "node_modules, dist",
+            "description": "Defines folders to exclude, separated by commas."
+          },
+          "ruleengine.ruleEditor.findFiles.fileExtensions": {
+            "type": "string",
+            "default": "js, ts",
+            "description": "Defines file extensions, separated by commas."
+          },
+          "ruleengine.ruleEditor.findFiles.maxResults": {
+            "type": "number",
+            "default": 50,
+            "description": "Defines max search results."
           }
         }
       }

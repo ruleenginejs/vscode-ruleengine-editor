@@ -66,3 +66,16 @@ export function getStepTypeAndName(stepType: StepType): {
 
   return { type, name };
 }
+
+export function splitByChar(str: string, char: string): string[] {
+  if (typeof str !== "string") {
+    return str;
+  }
+  return str.split(char)
+    .map(s => s.trim())
+    .filter(s => !!s);
+}
+
+export function splitByComma(str: string): string[] {
+  return splitByChar(str, ",");
+}

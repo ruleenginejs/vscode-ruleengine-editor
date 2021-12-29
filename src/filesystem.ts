@@ -1,50 +1,51 @@
 import * as vscode from 'vscode';
 import * as path from "path";
-import { isDefined } from './common/types';
 
-export async function suggestScriptFiles(searchQuery: string | null, options: { baseAbsolutePath: string | undefined }, _token?: vscode.CancellationToken):
-  Promise<Array<{ text: string, value: string }>> {
+export interface FindOptions {
+  workspaceFolder?: vscode.WorkspaceFolder,
+  maxResults?: number,
+  excludeDirs?: string[],
+  fileExtensions?: string[]
+}
 
-  if (!isDefined(searchQuery)
-    || typeof searchQuery !== "string"
-    || searchQuery.length === 0
-  ) {
-    return [];
-  }
+export async function findFiles(query: string, options: FindOptions, token?: vscode.CancellationToken): Promise<vscode.Uri[]> {
+  const includePattern = _buildIncludePattern(query, options.workspaceFolder, options.fileExtensions);
+  const excludePattern = options.excludeDirs ? _buildExcludePattern(options.excludeDirs) : undefined;
+  const files = await vscode.workspace.findFiles(includePattern, excludePattern, options.maxResults, token);
+  return files;
+}
 
-  const isAbsolute = path.isAbsolute(searchQuery);
-  let searchPath;
-  if (isAbsolute) {
-    searchPath = searchQuery;
-  } else if (isDefined(options?.baseAbsolutePath) && typeof options?.baseAbsolutePath === "string") {
-    searchPath = path.join(options.baseAbsolutePath, searchQuery);
+function _buildIncludePattern(query: string, workspaceFolder?: vscode.WorkspaceFolder, fileExtensions?: string[]): vscode.GlobPattern {
+  const pattern = _buildPattern(query, fileExtensions);
+  if (workspaceFolder) {
+    return new vscode.RelativePattern(workspaceFolder, pattern);
   } else {
-    return [];
+    return pattern;
   }
+}
 
-  let fileItems: Array<[string, vscode.FileType]> = [];
-  const searchDir = path.dirname(searchPath);
-  const query = path.basename(searchPath);
-  const searchUri = vscode.Uri.file(searchDir);
-  try {
-    const stat = await vscode.workspace.fs.stat(searchUri);
-    if (_token?.isCancellationRequested) {
-      return [];
-    }
-    if (stat.type === vscode.FileType.Directory) {
-      fileItems = await vscode.workspace.fs.readDirectory(searchUri);
-    }
-  } catch (err) {
-    console.error("error: ", err);
-    return [];
+function _buildExcludePattern(excludeDirs: string[]): vscode.GlobPattern | undefined {
+  if (excludeDirs.length === 0) {
+    return undefined;
   }
+  return `{${excludeDirs.join(",")}}`;
+}
 
-  fileItems = fileItems.filter(fileItem => fileItem[0].indexOf(query) !== -1);
-  const baseDir = isAbsolute ? searchDir : path.relative(options.baseAbsolutePath!, searchDir);
-  const result = fileItems.map(fileItem => ({
-    text: fileItem[0],
-    value: `${baseDir}${path.sep}${fileItem[0]}`
-  }));
+function _buildPattern(query: string, fileExtensions?: string[]): string {
+  query = replaceBackslash(query);
+  const ext = path.extname(query);
+  let pattern = "**/*";
+  if (query) {
+    pattern += `${query}*`;
+  }
+  if (fileExtensions && fileExtensions.length > 0 && !ext) {
+    pattern += `.{${fileExtensions.join(",")}}`;
+  }
+  return pattern;
+}
 
-  return result;
+const _backslashRegexp = new RegExp("\\\\", 'g');
+
+export function replaceBackslash(path: string): string {
+  return path.replace(_backslashRegexp, "/");
 }
