@@ -61,7 +61,7 @@
           },
           "ruleengine.ruleEditor.findFiles.excludeDirs": {
             "type": "string",
-            "default": "node_modules, dist",
+            "default": "node_modules, bower_components, jspm_packages, tmp, temp, .tmp, build, dist, .idea, .vscode",
             "description": "Defines folders to exclude, separated by commas."
           },
           "ruleengine.ruleEditor.findFiles.fileExtensions": {
