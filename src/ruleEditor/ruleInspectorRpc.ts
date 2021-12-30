@@ -5,6 +5,7 @@ import { findFiles, replaceBackslash } from "../filesystem";
 import { RuleEditorProvider } from "./ruleEditorProvider";
 import { dirname, basename, relative } from "path";
 import { splitByComma } from '../util';
+import { isDefined } from '../common/types';
 
 export abstract class RuleInspectorRpc extends BaseInspectorWebviewView {
 
@@ -20,6 +21,11 @@ export abstract class RuleInspectorRpc extends BaseInspectorWebviewView {
     text: string,
     value: string
   }>> {
+    searchQuery = searchQuery || "";
+    if (searchQuery.startsWith("~")) {
+      return [];
+    }
+
     this._findCancellationSource?.cancel();
     this._findCancellationSource = new vscode.CancellationTokenSource();
     const activeDocument = RuleEditorProvider.current?.activeCustomEditor?.document;
@@ -29,9 +35,11 @@ export abstract class RuleInspectorRpc extends BaseInspectorWebviewView {
     }
     const documentDir = dirname(activeDocument.uri.fsPath);
     const workspacePath = workspaceFolder.uri.fsPath;
+    const subFolder = relative(workspacePath, documentDir);
 
     const files = await findFiles(searchQuery, {
       workspaceFolder,
+      subFolder,
       excludeDirs: this.excludeDirs,
       fileExtensions: this.fileExtensions,
       maxResults: this.maxResults
@@ -49,15 +57,30 @@ export abstract class RuleInspectorRpc extends BaseInspectorWebviewView {
     });
   }
 
+  private _excludeDirs?: string[];
+  private _fileExtensions?: string[];
+  private _maxResults?: number;
+
   private get excludeDirs(): string[] {
-    return splitByComma(vscode.workspace.getConfiguration("ruleengine.ruleEditor.findFiles").get("excludeDirs", ""));
+    if (!isDefined(this._excludeDirs)) {
+      const value = vscode.workspace.getConfiguration("ruleengine.ruleEditor.findFiles").get("excludeDirs", "");
+      this._excludeDirs = splitByComma(value);
+    }
+    return this._excludeDirs!;
   }
 
   private get fileExtensions(): string[] {
-    return splitByComma(vscode.workspace.getConfiguration("ruleengine.ruleEditor.findFiles").get("fileExtensions", ""));
+    if (!isDefined(this._fileExtensions)) {
+      const value = vscode.workspace.getConfiguration("ruleengine.ruleEditor.findFiles").get("fileExtensions", "");
+      this._fileExtensions = splitByComma(value);
+    }
+    return this._fileExtensions!;
   }
 
   private get maxResults(): number {
-    return vscode.workspace.getConfiguration("ruleengine.ruleEditor.findFiles").get("maxResults", 50);
+    if (!isDefined(this._maxResults)) {
+      this._maxResults = vscode.workspace.getConfiguration("ruleengine.ruleEditor.findFiles").get("maxResults", 50);
+    }
+    return this._maxResults!;
   }
 }
