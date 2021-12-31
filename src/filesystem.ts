@@ -2,6 +2,8 @@ import * as vscode from 'vscode';
 import * as path from "path";
 import { isDefined } from './common/types';
 
+const BACKSLASH_REGEX = new RegExp("\\\\", 'g');
+
 const SLASH = "/";
 const DOT = ".";
 const RELATIVE_PATH = DOT + SLASH;
@@ -38,44 +40,41 @@ function _buildExcludePattern(excludeDirs: string[]): vscode.GlobPattern | undef
 }
 
 function _buildPattern(query: string, fileExtensions?: string[], subFolder?: string): string {
-  let pattern = "";
   query = replaceBackslash(query);
-
-  if (query.startsWith(RELATIVE_PATH)) {
-    query = query.slice(RELATIVE_PATH.length);
-    if (isDefined(subFolder)) {
-      pattern += trimEndSlash(replaceBackslash(subFolder!)) + SLASH;
-    }
+  query = _expandRelativePath(query, subFolder);
+  const inFolder = query.endsWith(SLASH);
+  const dirname = inFolder ? query : path.dirname(query);
+  const basename = inFolder ? "" : path.basename(query);
+  let pattern = "";
+  if (dirname !== DOT && dirname !== SLASH) {
+    pattern += trimEndSlash(dirname) + SLASH;
   }
-
-  if (query) {
-    query = replaceBackslash(path.normalize(query));
-  }
-
-  const endSlash = query.endsWith(SLASH);
-  const dirName = endSlash ? query : path.dirname(query);
-  const baseName = endSlash ? "" : path.basename(query);
-  const ext = path.extname(query);
-
-  if (dirName !== DOT) {
-    pattern += trimEndSlash(dirName) + SLASH;
-  }
-
   pattern += "**/*";
-  if (baseName) {
-    pattern += baseName + "*";
+  if (basename && query !== DOT) {
+    pattern += basename + "*";
   }
-  if (!ext && fileExtensions && fileExtensions.length > 0) {
-    pattern += `.{${fileExtensions.join(",")}}`;
-  }
-  console.log("search pattern:", pattern);
+  pattern += _addExtensionPattern(query, fileExtensions);
   return pattern;
 }
 
-const BACKSLASH = new RegExp("\\\\", 'g');
+function _expandRelativePath(query: string, subFolder?: string) {
+  if (query.startsWith(RELATIVE_PATH) && isDefined(subFolder)) {
+    query = query.slice(RELATIVE_PATH.length);
+    query = trimEndSlash(replaceBackslash(subFolder!)) + SLASH + query;
+  }
+  return query;
+}
+
+function _addExtensionPattern(query: string, fileExtensions?: string[]) {
+  const ext = path.extname(query);
+  if (!ext && fileExtensions && fileExtensions.length > 0) {
+    return `.{${fileExtensions.join(",")}}`;
+  }
+  return "";
+}
 
 export function replaceBackslash(path: string): string {
-  return path.replace(BACKSLASH, "/");
+  return path.replace(BACKSLASH_REGEX, "/");
 }
 
 function trimEndSlash(path: string): string {
