@@ -245,7 +245,7 @@
     "build-editor": "cd media/editor && npm run build && cd ../..",
     "deploy": "vsce publish --no-yarn",
     "postversion": "npm run push",
-    "push": "git push origin master && git push origin master --tags",
+    "push": "git push origin master --tags",
     "vsix": "npx vsce package"
   },
   "dependencies": {
