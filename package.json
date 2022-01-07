@@ -194,6 +194,10 @@
     "menus": {
       "commandPalette": [
         {
+          "command": "ruleengine.ruleEditor.newScriptFile",
+          "when": "activeCustomEditorId == ruleengine.ruleEditor"
+        },
+        {
           "command": "ruleengine.ruleEditor.addStep",
           "when": "activeCustomEditorId == ruleengine.ruleEditor"
         },
