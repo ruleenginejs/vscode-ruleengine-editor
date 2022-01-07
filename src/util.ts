@@ -8,7 +8,19 @@ export enum StepType {
   composite = "Composite Step"
 }
 
-const stepQuickPickItems: Array<vscode.QuickPickItem> = [
+export enum FunctionTemplateVariants {
+  twoArgs = "Function With Two Args",
+  threeArgs = "Function With Three Args",
+  fourArgs = "Function With Four Args",
+  fiveArgs = "Function With Five Args"
+}
+
+export enum NamingConvention {
+  kebabCase = "kebab-case",
+  camelCase = "camelCase"
+}
+
+const stepItems: Array<vscode.QuickPickItem> = [
   {
     label: StepType.start,
     detail: "This step indicates start of rule."
@@ -27,8 +39,27 @@ const stepQuickPickItems: Array<vscode.QuickPickItem> = [
   }
 ];
 
+const sriptFileTemplateItems: Array<vscode.QuickPickItem> = [
+  {
+    label: FunctionTemplateVariants.twoArgs,
+    detail: "(context, next)"
+  },
+  {
+    label: FunctionTemplateVariants.threeArgs,
+    detail: "(context, port, next)"
+  },
+  {
+    label: FunctionTemplateVariants.fourArgs,
+    detail: "(context, port, props, next)"
+  },
+  {
+    label: FunctionTemplateVariants.fiveArgs,
+    detail: "(err, context, port, props, next)"
+  }
+];
+
 export async function showStepQuickPick(): Promise<StepType | undefined> {
-  const result = await vscode.window.showQuickPick(stepQuickPickItems, {
+  const result = await vscode.window.showQuickPick(stepItems, {
     placeHolder: 'Select Step'
   });
   if (!result) {
@@ -37,34 +68,14 @@ export async function showStepQuickPick(): Promise<StepType | undefined> {
   return result.label as StepType;
 }
 
-export function getStepTypeAndName(stepType: StepType): {
-  type: String | null,
-  name: String | null
-} {
-  let type: String | null = null;
-  let name: String | null = null;
-
-  switch (stepType) {
-    case StepType.start:
-      type = "start";
-      break;
-    case StepType.end:
-      type = "end";
-      break;
-    case StepType.error:
-      type = "error";
-      break;
-    case StepType.single:
-      type = "single";
-      name = "New Step";
-      break;
-    case StepType.composite:
-      type = "composite";
-      name = "New Step";
-      break;
+export async function showScriptFileTemplateQuickPick(): Promise<FunctionTemplateVariants | undefined> {
+  const result = await vscode.window.showQuickPick(sriptFileTemplateItems, {
+    placeHolder: 'Select File Template'
+  });
+  if (!result) {
+    return undefined;
   }
-
-  return { type, name };
+  return result.label as FunctionTemplateVariants;
 }
 
 export function splitByChar(str: string, char: string): string[] {
@@ -78,4 +89,12 @@ export function splitByChar(str: string, char: string): string[] {
 
 export function splitByComma(str: string): string[] {
   return splitByChar(str, ",");
+}
+
+export function kebabCase(str: string): string {
+  return require('lodash.kebabcase')(str);
+}
+
+export function camelCase(str: string): string {
+  return require('lodash.camelcase')(str);
 }

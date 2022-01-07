@@ -3,14 +3,19 @@ import { ExthostRpc } from "@/utils/exthost-rpc";
 
 const DEFAULT_EDIT_DELAY = 100;
 const DEFAULT_COMPLETION_DELAY = 0;
+const DEFAULT_CHECK_EXISTS_DELAY = 100;
 
 export default function useInspector(vscode) {
   const rpc = new ExthostRpc(vscode);
   const dataModel = ref(null);
   const editDelay = ref(DEFAULT_EDIT_DELAY);
   const provider = ref(markRaw({
+    getCompletionDelay,
+    getCheckExistsDelay,
     suggestScriptFiles,
-    getCompletionDelay
+    openScriptFile,
+    newScriptFile,
+    scriptFileExists
   }));
 
   const onEdit = (e) => {
@@ -31,12 +36,28 @@ export default function useInspector(vscode) {
     dataModel.value = data;
   }
 
+  function getCompletionDelay() {
+    return DEFAULT_COMPLETION_DELAY;
+  }
+
+  function getCheckExistsDelay() {
+    return DEFAULT_CHECK_EXISTS_DELAY;
+  }
+
   function suggestScriptFiles(searchQuery) {
     return rpc.provider.rpc("suggestScriptFiles", searchQuery);
   }
 
-  function getCompletionDelay() {
-    return DEFAULT_COMPLETION_DELAY;
+  function openScriptFile(filePath) {
+    rpc.provider.rpc("openScriptFile", filePath);
+  }
+
+  function newScriptFile(opt) {
+    return rpc.provider.rpc("newScriptFile", opt);
+  }
+
+  function scriptFileExists(filePath) {
+    return rpc.provider.rpc("scriptFileExists", filePath);
   }
 
   ready();
