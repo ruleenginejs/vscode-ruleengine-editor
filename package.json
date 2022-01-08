@@ -150,7 +150,7 @@
       },
       {
         "command": "ruleengine.ruleEditor.newScriptFile",
-        "title": "Rule Engine: Create New Script File"
+        "title": "Rule Engine: New Script File"
       },
       {
         "command": "ruleengine.ruleEditor.addStep",
