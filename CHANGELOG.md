@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.0.3] - 2022-01-08
+### Added
+- Find script file in step.
+- Create new script file from template.
+- Open script file.
+- New configuration sections.
+
 ## [0.0.2] - 2021-12-31
 ### Added
 - New edit props for steps, connections and ports.
