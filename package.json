@@ -34,8 +34,7 @@
   "activationEvents": [
     "onView:ruleengine.inpsectorView",
     "onCustomEditor:ruleengine.ruleEditor",
-    "onCommand:ruleengine.ruleEditor.newFile",
-    "onCommand:ruleengine.ruleEditor.newScriptFile"
+    "onCommand:ruleengine.ruleEditor.newFile"
   ],
   "main": "./dist/extension.js",
   "capabilities": {
