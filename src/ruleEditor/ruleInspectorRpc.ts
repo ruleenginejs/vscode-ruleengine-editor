@@ -35,8 +35,11 @@ export abstract class RuleInspectorRpc extends BaseInspectorWebviewView {
     this._searchCancellationSource?.cancel();
     this._searchCancellationSource = new vscode.CancellationTokenSource();
     const activeDocument = RuleEditorProvider.current?.activeCustomEditor?.document;
-    const workspaceFolder = activeDocument ? vscode.workspace.getWorkspaceFolder(activeDocument.uri) : undefined;
-    if (!activeDocument || !workspaceFolder) {
+    if (!activeDocument) {
+      return [];
+    }
+    const workspaceFolder = vscode.workspace.getWorkspaceFolder(activeDocument.uri.with({ scheme: "file" }));
+    if (!workspaceFolder) {
       return [];
     }
     const documentDir = dirname(activeDocument.uri.fsPath);
