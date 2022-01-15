@@ -114,7 +114,6 @@ export abstract class RuleInspectorRpc extends BaseInspectorWebviewView {
       const stat = await vscode.workspace.fs.stat(uri);
       return stat.type !== vscode.FileType.Directory;
     } catch (e) {
-      console.error(e);
       return false;
     }
   }
@@ -147,7 +146,6 @@ export abstract class RuleInspectorRpc extends BaseInspectorWebviewView {
         await vscode.workspace.fs.stat(uri);
         uri = undefined;
       } catch (e) {
-        console.error(e);
         break;
       }
       c++;

@@ -1,8 +1,8 @@
 import { ref, onBeforeUnmount, markRaw } from "vue"
 import { ExthostRpc } from "@/utils/exthost-rpc";
 
-const DEFAULT_EDIT_DELAY = 100;
-const DEFAULT_COMPLETION_DELAY = 0;
+const DEFAULT_EDIT_DELAY = null;
+const DEFAULT_COMPLETION_DELAY = null;
 const DEFAULT_CHECK_EXISTS_DELAY = 100;
 
 export default function useInspector(vscode) {
