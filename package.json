@@ -72,12 +72,12 @@
             "default": 50,
             "description": "Defines max search results."
           },
-          "ruleengine.ruleEditor.scriptFiles.newFileExtension": {
+          "ruleengine.ruleEditor.scriptFile.newFileExtension": {
             "type": "string",
             "default": "js",
             "description": "Defines the extension when creating a new script file."
           },
-          "ruleengine.ruleEditor.scriptFiles.newFileNamingConvention": {
+          "ruleengine.ruleEditor.scriptFile.newFileNamingConvention": {
             "type": "string",
             "default": "kebab-case",
             "enum": [
@@ -86,25 +86,82 @@
               "none"
             ]
           },
-          "ruleengine.ruleEditor.scriptFiles.template.twoArgs": {
+          "ruleengine.ruleEditor.scriptFile.selectTemplateGroup": {
             "type": "string",
-            "default": "module.exports = (context, next) => {\\n  next();\\n}\\n",
-            "description": "Script file template with two arguments."
+            "default": "es",
+            "description": "Default template groups 'cjs', 'es', 'ts' used when create new script file."
           },
-          "ruleengine.ruleEditor.scriptFiles.template.threeArgs": {
-            "type": "string",
-            "default": "module.exports = (context, port, next) => {\\n  next();\\n}\\n",
-            "description": "Script file template with three arguments."
-          },
-          "ruleengine.ruleEditor.scriptFiles.template.fourArgs": {
-            "type": "string",
-            "default": "module.exports = (context, port, props, next) => {\\n  next();\\n}\\n",
-            "description": "Script file template with four arguments."
-          },
-          "ruleengine.ruleEditor.scriptFiles.template.fiveArgs": {
-            "type": "string",
-            "default": "module.exports = (err, context, port, props, next) => {\\n  next();\\n}\\n",
-            "description": "Script file template with five arguments."
+          "ruleengine.ruleEditor.scriptFile.templates": {
+            "type": "object",
+            "default": {
+              "cjs": [
+                {
+                  "code": "module.exports = (context, next) => {\\n  next();\\n}\\n",
+                  "label": "Function With Two Args",
+                  "detail": "(context, next)"
+                },
+                {
+                  "code": "module.exports = (context, port, next) => {\\n  next();\\n}\\n",
+                  "label": "Function With Three Args",
+                  "detail": "(context, port, next)"
+                },
+                {
+                  "code": "module.exports = (context, port, props, next) => {\\n  next();\\n}\\n",
+                  "label": "Function With Four Args",
+                  "detail": "(context, port, props, next)"
+                },
+                {
+                  "code": "module.exports = (err, context, port, props, next) => {\\n  next();\\n}\\n",
+                  "label": "Function With Five Args",
+                  "detail": "(err, context, port, props, next)"
+                }
+              ],
+              "es": [
+                {
+                  "code": "export default (context, next) => {\\n  next();\\n}\\n",
+                  "label": "Function With Two Args",
+                  "detail": "(context, next)"
+                },
+                {
+                  "code": "export default (context, port, next) => {\\n  next();\\n}\\n",
+                  "label": "Function With Three Args",
+                  "detail": "(context, port, next)"
+                },
+                {
+                  "code": "export default (context, port, props, next) => {\\n  next();\\n}\\n",
+                  "label": "Function With Four Args",
+                  "detail": "(context, port, props, next)"
+                },
+                {
+                  "code": "export default (err, context, port, props, next) => {\\n  next();\\n}\\n",
+                  "label": "Function With Five Args",
+                  "detail": "(err, context, port, props, next)"
+                }
+              ],
+              "ts": [
+                {
+                  "code": "export default (context: unknown, next: (portOrError?: string | Error) => void): void => {\\n  next();\\n}\\n",
+                  "label": "Function With Two Args",
+                  "detail": "(context, next)"
+                },
+                {
+                  "code": "export default (context: unknown, port: string, next: (portOrError?: string | Error) => void): void => {\\n  next();\\n}\\n",
+                  "label": "Function With Three Args",
+                  "detail": "(context, port, next)"
+                },
+                {
+                  "code": "export default (context: unknown, port: string, props: Record<string, unknown>, next: (portOrError?: string | Error) => void): void => {\\n  next();\\n}\\n",
+                  "label": "Function With Four Args",
+                  "detail": "(context, port, props, next)"
+                },
+                {
+                  "code": "export default (err: Error, context: unknown, port: string, props: Record<string, unknown>, next: (portOrError?: string | Error) => void): void => {\\n  next();\\n}\\n",
+                  "label": "Function With Five Args",
+                  "detail": "(err, context, port, props, next)"
+                }
+              ]
+            },
+            "description": "Template code for step handlers."
           }
         }
       }

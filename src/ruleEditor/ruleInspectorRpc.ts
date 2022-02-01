@@ -209,14 +209,14 @@ export abstract class RuleInspectorRpc extends BaseInspectorWebviewView {
 
   private get newFileExtension(): string {
     if (!isDefined(this._configCache.newFileExtension)) {
-      this._configCache.newFileExtension = this.getConf("scriptFiles", "newFileExtension", "");
+      this._configCache.newFileExtension = this.getConf("scriptFile", "newFileExtension", "");
     }
     return this._configCache.newFileExtension!;
   }
 
   private get newFileNamingConvention(): string {
     if (!isDefined(this._configCache.newFileNamingConvention)) {
-      this._configCache.newFileNamingConvention = this.getConf("scriptFiles", "newFileNamingConvention", "");
+      this._configCache.newFileNamingConvention = this.getConf("scriptFile", "newFileNamingConvention", "");
     }
     return this._configCache.newFileNamingConvention!;
   }

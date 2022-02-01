@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { isDefined } from './common/types';
 import { RuleEditorPanel } from './ruleEditor/ruleEditorPanel';
 import { RuleEditorProvider } from './ruleEditor/ruleEditorProvider';
-import { FunctionTemplateVariants, showScriptFileTemplateQuickPick, showStepQuickPick, StepType } from './util';
+import { showStepQuickPick, StepType } from './util';
 import { dirname } from "path";
 
 export class NewRuleFileCommand {
@@ -32,8 +32,8 @@ export class NewScriptFileCommand {
   private static attemptCount = 100;
 
   public static async execute(uri?: vscode.Uri): Promise<boolean> {
-    const result = await showScriptFileTemplateQuickPick();
-    if (!isDefined(result)) {
+    const templateCode = await NewScriptFileCommand.showTemplateQuickPick();
+    if (!isDefined(templateCode)) {
       return false;
     }
     if (!uri) {
@@ -43,27 +43,9 @@ export class NewScriptFileCommand {
     const textDocument = await vscode.workspace.openTextDocument(uri.with({ scheme: 'untitled' }));
     const editor = await vscode.window.showTextDocument(textDocument, vscode.ViewColumn.One, false);
     await editor.edit(edit => {
-      const section = NewScriptFileCommand.getConfigSectionName(result!);
-      const content = section ? vscode.workspace.getConfiguration("ruleengine.ruleEditor.scriptFiles.template")
-        .get(section, "") : "";
-      edit.insert(new vscode.Position(0, 0), content.replace(/\\n/g, "\n"));
+      edit.insert(new vscode.Position(0, 0), templateCode!.replace(/\\n/g, "\n"));
     });
     return true;
-  }
-
-  private static getConfigSectionName(variants: FunctionTemplateVariants): string | undefined {
-    switch (variants) {
-      case FunctionTemplateVariants.twoArgs:
-        return "twoArgs";
-      case FunctionTemplateVariants.threeArgs:
-        return "threeArgs";
-      case FunctionTemplateVariants.fourArgs:
-        return "fourArgs";
-      case FunctionTemplateVariants.fiveArgs:
-        return "fiveArgs";
-      default:
-        return undefined;
-    }
   }
 
   private static async suggestScriptFileUri(): Promise<vscode.Uri> {
@@ -96,8 +78,31 @@ export class NewScriptFileCommand {
   }
 
   private static createNewFileName(): string {
-    const extension = vscode.workspace.getConfiguration("ruleengine.ruleEditor.scriptFiles").get("newFileExtension", "");
+    const extension = vscode.workspace.getConfiguration("ruleengine.ruleEditor.scriptFile").get("newFileExtension", "");
     return `new-${NewScriptFileCommand.newUntitledId++}.${extension}`;
+  }
+
+  private static async showTemplateQuickPick(): Promise<string | undefined> {
+    const conf = vscode.workspace.getConfiguration("ruleengine.ruleEditor.scriptFile");
+    const group: string | undefined = conf.get("selectTemplateGroup");
+    const templates: Record<string, Array<{ code: string, label?: string, detail?: string }>> = conf.get("templates", {});
+    if (!group || !Array.isArray(templates[group])) {
+      return undefined;
+    }
+    const templateItems = templates[group];
+    const quickPickItems: Array<vscode.QuickPickItem> = templateItems.map(t => ({
+      label: t.label || t.code,
+      detail: t.detail
+    }));
+    const result = await vscode.window.showQuickPick(quickPickItems, {
+      placeHolder: 'Select File Template'
+    });
+    if (!result) {
+      return undefined;
+    }
+    const code: string | undefined = templateItems
+      .find(t => t.label === result.label)?.code;
+    return code;
   }
 }
 

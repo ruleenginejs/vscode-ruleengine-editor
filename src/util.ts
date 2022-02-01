@@ -8,13 +8,6 @@ export enum StepType {
   composite = "Composite Step"
 }
 
-export enum FunctionTemplateVariants {
-  twoArgs = "Function With Two Args",
-  threeArgs = "Function With Three Args",
-  fourArgs = "Function With Four Args",
-  fiveArgs = "Function With Five Args"
-}
-
 export enum NamingConvention {
   kebabCase = "kebab-case",
   camelCase = "camelCase"
@@ -39,25 +32,6 @@ const stepItems: Array<vscode.QuickPickItem> = [
   }
 ];
 
-const sriptFileTemplateItems: Array<vscode.QuickPickItem> = [
-  {
-    label: FunctionTemplateVariants.twoArgs,
-    detail: "(context, next)"
-  },
-  {
-    label: FunctionTemplateVariants.threeArgs,
-    detail: "(context, port, next)"
-  },
-  {
-    label: FunctionTemplateVariants.fourArgs,
-    detail: "(context, port, props, next)"
-  },
-  {
-    label: FunctionTemplateVariants.fiveArgs,
-    detail: "(err, context, port, props, next)"
-  }
-];
-
 export async function showStepQuickPick(): Promise<StepType | undefined> {
   const result = await vscode.window.showQuickPick(stepItems, {
     placeHolder: 'Select Step'
@@ -66,16 +40,6 @@ export async function showStepQuickPick(): Promise<StepType | undefined> {
     return undefined;
   }
   return result.label as StepType;
-}
-
-export async function showScriptFileTemplateQuickPick(): Promise<FunctionTemplateVariants | undefined> {
-  const result = await vscode.window.showQuickPick(sriptFileTemplateItems, {
-    placeHolder: 'Select File Template'
-  });
-  if (!result) {
-    return undefined;
-  }
-  return result.label as FunctionTemplateVariants;
 }
 
 export function splitByChar(str: string, char: string): string[] {
