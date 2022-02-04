@@ -86,7 +86,7 @@
               "none"
             ]
           },
-          "ruleengine.ruleEditor.scriptFile.selectTemplateGroup": {
+          "ruleengine.ruleEditor.scriptFile.templateGroup": {
             "type": "string",
             "default": "es",
             "description": "Default template groups 'cjs', 'es', 'ts' used when create new script file."

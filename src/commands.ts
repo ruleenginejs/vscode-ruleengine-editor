@@ -84,7 +84,7 @@ export class NewScriptFileCommand {
 
   private static async showTemplateQuickPick(): Promise<string | undefined> {
     const conf = vscode.workspace.getConfiguration("ruleengine.ruleEditor.scriptFile");
-    const group: string | undefined = conf.get("selectTemplateGroup");
+    const group: string | undefined = conf.get("templateGroup");
     const templates: Record<string, Array<{ code: string, label?: string, detail?: string }>> = conf.get("templates", {});
     if (!group || !Array.isArray(templates[group])) {
       return undefined;
