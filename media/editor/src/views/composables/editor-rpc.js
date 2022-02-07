@@ -1,9 +1,7 @@
 import { watch, nextTick } from "vue";
 import { ExthostRpc } from "@/utils/exthost-rpc";
 import { sidebarModelSerializer } from "@ruleenginejs/editor";
-
-const NEW_NODE_START_OFFSET = [20, 20];
-const NEW_NODE_CASCADE_OFFSET = [15, 15];
+import { NEW_NODE_CASCADE_OFFSET, NEW_NODE_START_OFFSET } from "./const";
 
 export class EditorRpc extends ExthostRpc {
   constructor(vscode, { zoom, editor, selectedModel }) {

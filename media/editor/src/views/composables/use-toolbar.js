@@ -2,9 +2,7 @@ import { ref, computed, onMounted, onUnmounted, watchEffect, reactive } from "vu
 import { toolbar, toolbarDefaults } from "@ruleenginejs/editor";
 import debounce from "debounce";
 import { executeCommand } from "@/utils/exthost";
-
-const RESIZE_DELAY = 300;
-const DEFAULT_POSITION = { x: 400, y: 15 };
+import { DEFAULT_POSITION, RESIZE_DELAY } from "./const";
 
 const actionKeys = {
   addStep: "addStep"

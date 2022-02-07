@@ -8,6 +8,15 @@ import { camelCase, kebabCase, NamingConvention, splitByComma } from '../util';
 import { isDefined } from '../common/types';
 import { RuleDocument } from './ruleDocument';
 import { NewScriptFileCommand } from '../commands';
+import * as propsParser from '@ruleenginejs/props-parser';
+
+interface UserPropConfig {
+  type: string;
+  prop: string;
+  order?: number
+  default?: string;
+  enum?: string[];
+}
 
 export abstract class RuleInspectorRpc extends BaseInspectorWebviewView {
 
@@ -17,6 +26,7 @@ export abstract class RuleInspectorRpc extends BaseInspectorWebviewView {
     rpcProvider.registerRpcHandler("openScriptFile", this.openScriptFile.bind(this));
     rpcProvider.registerRpcHandler("scriptFileExists", this.scriptFileExists.bind(this));
     rpcProvider.registerRpcHandler("newScriptFile", this.newScriptFile.bind(this));
+    rpcProvider.registerRpcHandler("getUserPropsConfig", this.getUserPropsConfig.bind(this));
     return rpcProvider;
   }
 
@@ -115,6 +125,31 @@ export abstract class RuleInspectorRpc extends BaseInspectorWebviewView {
       return stat.type !== vscode.FileType.Directory;
     } catch (e) {
       return false;
+    }
+  }
+
+  protected async getUserPropsConfig(filePath: string): Promise<Record<string, UserPropConfig>> {
+    const activeDocument = RuleEditorProvider.current?.activeCustomEditor?.document;
+    if (!activeDocument || !filePath) {
+      return {};
+    }
+    const uri = this.getScriptFileUri(activeDocument, filePath);
+    if (!uri) {
+      return {};
+    }
+    try {
+      const binaryData = await vscode.workspace.fs.readFile(uri);
+      const contents = Buffer.from(binaryData).toString("utf8");
+      const initValue: Record<string, UserPropConfig> = {};
+      return propsParser.parse(contents).reduce((res, curr, idx) => {
+        res[curr.prop] = {
+          ...curr,
+          order: idx
+        };
+        return res;
+      }, initValue);
+    } catch (e) {
+      return {};
     }
   }
 

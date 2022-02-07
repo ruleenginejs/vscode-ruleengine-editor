@@ -1,7 +1,6 @@
 import { ref, onBeforeUnmount } from "vue";
+import { DEFAULT_ZOOM } from "./const";
 import { EditorRpc } from "./editor-rpc";
-
-const DEFAULT_ZOOM = 100;
 
 const edgeScrollSizes = Object.freeze({
   edgeTopSize: { in: 10, out: 0 },

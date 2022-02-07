@@ -346,8 +346,9 @@
     "vsix": "npx vsce package"
   },
   "dependencies": {
-    "lodash.kebabcase": "4.1.1",
+    "@ruleenginejs/props-parser": "1.0.0",
     "lodash.camelcase": "4.3.0",
+    "lodash.kebabcase": "4.1.1",
     "worker-rpc": "0.2.0"
   },
   "devDependencies": {

@@ -1,12 +1,13 @@
 import { ref, onBeforeUnmount, markRaw } from "vue"
 import { ExthostRpc } from "@/utils/exthost-rpc";
-
-const DEFAULT_EDIT_DELAY = null;
-const DEFAULT_COMPLETION_DELAY = null;
-const DEFAULT_CHECK_EXISTS_DELAY = 100;
+import {
+  DEFAULT_CHECK_EXISTS_DELAY,
+  DEFAULT_COMPLETION_DELAY,
+  DEFAULT_EDIT_DELAY,
+  DEFAULT_USER_PROPS_UPDATE_DELAY
+} from "./const";
 
 export default function useInspector(vscode) {
-  const rpc = new ExthostRpc(vscode);
   const dataModel = ref(null);
   const editDelay = ref(DEFAULT_EDIT_DELAY);
   const provider = ref(markRaw({
@@ -15,8 +16,12 @@ export default function useInspector(vscode) {
     suggestScriptFiles,
     openScriptFile,
     newScriptFile,
-    scriptFileExists
+    scriptFileExists,
+    getUserPropsUpdateDelay,
+    getUserPropsConfig
   }));
+
+  const rpc = new ExthostRpc(vscode);
 
   const onEdit = (e) => {
     rpc.provider.signal("edit", e);
@@ -44,6 +49,10 @@ export default function useInspector(vscode) {
     return DEFAULT_CHECK_EXISTS_DELAY;
   }
 
+  function getUserPropsUpdateDelay() {
+    return DEFAULT_USER_PROPS_UPDATE_DELAY;
+  }
+
   function suggestScriptFiles(searchQuery) {
     return rpc.provider.rpc("suggestScriptFiles", searchQuery);
   }
@@ -58,6 +67,10 @@ export default function useInspector(vscode) {
 
   function scriptFileExists(filePath) {
     return rpc.provider.rpc("scriptFileExists", filePath);
+  }
+
+  function getUserPropsConfig(filePath) {
+    return rpc.provider.rpc("getUserPropsConfig", filePath);
   }
 
   ready();
