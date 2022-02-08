@@ -346,7 +346,7 @@
     "vsix": "npx vsce package"
   },
   "dependencies": {
-    "@ruleenginejs/props-parser": "1.0.0",
+    "@ruleenginejs/props-parser": "1.0.1",
     "lodash.camelcase": "4.3.0",
     "lodash.kebabcase": "4.1.1",
     "worker-rpc": "0.2.0"
@@ -354,10 +354,10 @@
   "devDependencies": {
     "@types/glob": "^7.2.0",
     "@types/mocha": "^9.1.0",
-    "@types/node": "^17.0.15",
+    "@types/node": "^17.0.16",
     "@types/vscode": "^1.64.0",
-    "@typescript-eslint/eslint-plugin": "^5.10.2",
-    "@typescript-eslint/parser": "^5.10.2",
+    "@typescript-eslint/eslint-plugin": "^5.11.0",
+    "@typescript-eslint/parser": "^5.11.0",
     "@vscode/test-electron": "^2.1.2",
     "eslint": "^8.8.0",
     "glob": "^7.2.0",
