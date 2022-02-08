@@ -1,5 +1,13 @@
 # Change Log
 
+## [0.0.4] - 2022-02-08
+### Added
+- Custom user properties in handlers.
+- New handler file templates (commonjs, esModule, typescript).
+- Support typescript.
+### Fixed
+- Sidebar editing.
+
 ## [0.0.3] - 2022-01-08
 ### Added
 - Find script file in step.
