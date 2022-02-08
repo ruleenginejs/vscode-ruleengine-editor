@@ -10,12 +10,8 @@ import { RuleDocument } from './ruleDocument';
 import { NewScriptFileCommand } from '../commands';
 import * as propsParser from '@ruleenginejs/props-parser';
 
-interface UserPropConfig {
-  type: string;
-  prop: string;
-  order?: number
-  default?: string;
-  enum?: string[];
+interface UserPropConfig extends propsParser.ResultItem {
+  order?: number;
 }
 
 export abstract class RuleInspectorRpc extends BaseInspectorWebviewView {
