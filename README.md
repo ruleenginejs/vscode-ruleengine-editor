@@ -4,6 +4,7 @@ A custom editor extension for Visual Studio Code which provides a pipeline edito
 
 ![Editor Screen](https://raw.githubusercontent.com/ruleenginejs/vscode-ruleengine-editor/master/images/screen.gif)
 
-## License
+## More Information
 
-[MIT](LICENSE)
+- [Documentation](https://ruleengine.org)
+- [License](LICENSE)

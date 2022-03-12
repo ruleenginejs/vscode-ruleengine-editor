@@ -12,22 +12,22 @@
   "dependencies": {
     "@ruleenginejs/editor": "1.2.6",
     "@ruleenginejs/ui": "1.2.3",
-    "@vscode/codicons": "0.0.27",
+    "@vscode/codicons": "0.0.29",
     "eventemitter3": "4.0.7",
     "is-plain-object": "5.0.0",
     "debounce": "1.2.1",
-    "vue": "3.2.30",
-    "vue-router": "4.0.12",
+    "vue": "3.2.31",
+    "vue-router": "4.0.14",
     "worker-rpc": "0.2.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^2.1.0",
+    "@vitejs/plugin-vue": "^2.2.4",
     "autoprefixer": "^10.4.2",
-    "eslint": "^8.8.0",
-    "eslint-plugin-vue": "^8.4.1",
-    "postcss": "^8.4.6",
+    "eslint": "^8.11.0",
+    "eslint-plugin-vue": "^8.5.0",
+    "postcss": "^8.4.8",
     "postcss-import": "^14.0.2",
-    "tailwindcss": "^3.0.19",
-    "vite": "^2.7.13"
+    "tailwindcss": "^3.0.23",
+    "vite": "^2.8.6"
   }
 }
