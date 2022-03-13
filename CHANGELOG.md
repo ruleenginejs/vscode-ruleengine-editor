@@ -1,10 +1,15 @@
 # Change Log
 
+## [0.0.5] - 2022-03-13
+### Fixed
+- Empty ports in the output file.
+
 ## [0.0.4] - 2022-02-08
 ### Added
 - Custom user properties in handlers.
 - New handler file templates (commonjs, esModule, typescript).
 - Support typescript.
+
 ### Fixed
 - Sidebar editing.
 
