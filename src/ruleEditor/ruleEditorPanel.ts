@@ -3,7 +3,6 @@ import { getNonce } from '../common/util';
 import { RuleEditorRpc } from './ruleEditorRpc';
 
 export class RuleEditorPanel extends RuleEditorRpc {
-
   protected getWebviewOptions(): vscode.WebviewOptions {
     return {
       ...super.getWebviewOptions(),
@@ -12,10 +11,22 @@ export class RuleEditorPanel extends RuleEditorRpc {
   }
 
   protected getHtmlForWebview(webview: vscode.Webview): string {
-    const scriptPathOnDisk = vscode.Uri.joinPath(this.extensionUri, this.mediaFolderName, 'editor', 'dist', 'index.js');
+    const scriptPathOnDisk = vscode.Uri.joinPath(
+      this.extensionUri,
+      this.mediaFolderName,
+      'editor',
+      'dist',
+      'index.js'
+    );
     const scriptUri = webview.asWebviewUri(scriptPathOnDisk);
 
-    const stylesPathOnDisk = vscode.Uri.joinPath(this.extensionUri, this.mediaFolderName, 'editor', 'dist', 'style.css');
+    const stylesPathOnDisk = vscode.Uri.joinPath(
+      this.extensionUri,
+      this.mediaFolderName,
+      'editor',
+      'dist',
+      'style.css'
+    );
     const stylesUri = webview.asWebviewUri(stylesPathOnDisk);
 
     const nonce = getNonce();

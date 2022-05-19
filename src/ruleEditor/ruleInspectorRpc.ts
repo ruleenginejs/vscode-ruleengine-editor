@@ -1,9 +1,9 @@
 import * as vscode from 'vscode';
-import { BaseInspectorWebviewView } from "../common/inspectorWebviewView";
+import { BaseInspectorWebviewView } from '../common/inspectorWebviewView';
 import { RpcProvider } from 'worker-rpc';
-import { findFiles, replaceBackslash } from "../filesystem";
-import { RuleEditorProvider } from "./ruleEditorProvider";
-import { dirname, basename, relative, isAbsolute, join } from "path";
+import { findFiles, replaceBackslash } from '../filesystem';
+import { RuleEditorProvider } from './ruleEditorProvider';
+import { dirname, basename, relative, isAbsolute, join } from 'path';
 import { camelCase, kebabCase, NamingConvention, splitByComma } from '../util';
 import { isDefined } from '../common/types';
 import { RuleDocument } from './ruleDocument';
@@ -15,36 +15,55 @@ interface UserPropConfig extends propsParser.ResultItem {
 }
 
 export abstract class RuleInspectorRpc extends BaseInspectorWebviewView {
-
   protected createRpcProvider(): RpcProvider {
     const rpcProvider = super.createRpcProvider();
-    rpcProvider.registerRpcHandler("suggestScriptFiles", this.suggestScriptFiles.bind(this));
-    rpcProvider.registerRpcHandler("openScriptFile", this.openScriptFile.bind(this));
-    rpcProvider.registerRpcHandler("scriptFileExists", this.scriptFileExists.bind(this));
-    rpcProvider.registerRpcHandler("newScriptFile", this.newScriptFile.bind(this));
-    rpcProvider.registerRpcHandler("getUserPropsConfig", this.getUserPropsConfig.bind(this));
+    rpcProvider.registerRpcHandler(
+      'suggestScriptFiles',
+      this.suggestScriptFiles.bind(this)
+    );
+    rpcProvider.registerRpcHandler(
+      'openScriptFile',
+      this.openScriptFile.bind(this)
+    );
+    rpcProvider.registerRpcHandler(
+      'scriptFileExists',
+      this.scriptFileExists.bind(this)
+    );
+    rpcProvider.registerRpcHandler(
+      'newScriptFile',
+      this.newScriptFile.bind(this)
+    );
+    rpcProvider.registerRpcHandler(
+      'getUserPropsConfig',
+      this.getUserPropsConfig.bind(this)
+    );
     return rpcProvider;
   }
 
   private _searchCancellationSource?: vscode.CancellationTokenSource;
-  private static packagePrefix = "~";
+  private static packagePrefix = '~';
 
-  protected async suggestScriptFiles(searchQuery: string): Promise<Array<{
-    text: string,
-    value: string
-  }>> {
-    searchQuery = searchQuery || "";
+  protected async suggestScriptFiles(searchQuery: string): Promise<
+    Array<{
+      text: string;
+      value: string;
+    }>
+  > {
+    searchQuery = searchQuery || '';
     if (searchQuery.startsWith(RuleInspectorRpc.packagePrefix)) {
       return [];
     }
 
     this._searchCancellationSource?.cancel();
     this._searchCancellationSource = new vscode.CancellationTokenSource();
-    const activeDocument = RuleEditorProvider.current?.activeCustomEditor?.document;
+    const activeDocument =
+      RuleEditorProvider.current?.activeCustomEditor?.document;
     if (!activeDocument) {
       return [];
     }
-    const workspaceFolder = vscode.workspace.getWorkspaceFolder(activeDocument.uri.with({ scheme: "file" }));
+    const workspaceFolder = vscode.workspace.getWorkspaceFolder(
+      activeDocument.uri.with({ scheme: 'file' })
+    );
     if (!workspaceFolder) {
       return [];
     }
@@ -52,13 +71,17 @@ export abstract class RuleInspectorRpc extends BaseInspectorWebviewView {
     const workspacePath = workspaceFolder.uri.fsPath;
     const subFolder = relative(workspacePath, documentDir);
 
-    const files = await findFiles(searchQuery, {
-      workspaceFolder,
-      subFolder,
-      excludeDirs: this.excludeDirs,
-      fileExtensions: this.fileExtensions,
-      maxResults: this.maxResults
-    }, this._searchCancellationSource.token);
+    const files = await findFiles(
+      searchQuery,
+      {
+        workspaceFolder,
+        subFolder,
+        excludeDirs: this.excludeDirs,
+        fileExtensions: this.fileExtensions,
+        maxResults: this.maxResults
+      },
+      this._searchCancellationSource.token
+    );
 
     return files.map(fileUri => {
       const filePath = fileUri.fsPath;
@@ -72,8 +95,13 @@ export abstract class RuleInspectorRpc extends BaseInspectorWebviewView {
     });
   }
 
-  protected async newScriptFile(opt: { nodeId: number, name: string, filePath: string }): Promise<string | null | undefined> {
-    const activeDocument = RuleEditorProvider.current?.activeCustomEditor?.document;
+  protected async newScriptFile(opt: {
+    nodeId: number;
+    name: string;
+    filePath: string;
+  }): Promise<string | null | undefined> {
+    const activeDocument =
+      RuleEditorProvider.current?.activeCustomEditor?.document;
     if (!activeDocument || !opt) {
       return undefined;
     }
@@ -95,7 +123,8 @@ export abstract class RuleInspectorRpc extends BaseInspectorWebviewView {
   }
 
   protected async openScriptFile(filePath: string): Promise<boolean> {
-    const activeDocument = RuleEditorProvider.current?.activeCustomEditor?.document;
+    const activeDocument =
+      RuleEditorProvider.current?.activeCustomEditor?.document;
     if (!activeDocument || !filePath) {
       return false;
     }
@@ -108,7 +137,8 @@ export abstract class RuleInspectorRpc extends BaseInspectorWebviewView {
   }
 
   protected async scriptFileExists(filePath: string): Promise<boolean> {
-    const activeDocument = RuleEditorProvider.current?.activeCustomEditor?.document;
+    const activeDocument =
+      RuleEditorProvider.current?.activeCustomEditor?.document;
     if (!activeDocument || !filePath) {
       return false;
     }
@@ -124,8 +154,11 @@ export abstract class RuleInspectorRpc extends BaseInspectorWebviewView {
     }
   }
 
-  protected async getUserPropsConfig(filePath: string): Promise<Record<string, UserPropConfig>> {
-    const activeDocument = RuleEditorProvider.current?.activeCustomEditor?.document;
+  protected async getUserPropsConfig(
+    filePath: string
+  ): Promise<Record<string, UserPropConfig>> {
+    const activeDocument =
+      RuleEditorProvider.current?.activeCustomEditor?.document;
     if (!activeDocument || !filePath) {
       return {};
     }
@@ -135,7 +168,7 @@ export abstract class RuleInspectorRpc extends BaseInspectorWebviewView {
     }
     try {
       const binaryData = await vscode.workspace.fs.readFile(uri);
-      const contents = Buffer.from(binaryData).toString("utf8");
+      const contents = Buffer.from(binaryData).toString('utf8');
       const initValue: Record<string, UserPropConfig> = {};
       return propsParser.parse(contents).reduce((res, curr, idx) => {
         res[curr.prop] = {
@@ -149,9 +182,12 @@ export abstract class RuleInspectorRpc extends BaseInspectorWebviewView {
     }
   }
 
-  private getScriptFileUri(activeDocument: RuleDocument, filePath: string): vscode.Uri | undefined {
+  private getScriptFileUri(
+    activeDocument: RuleDocument,
+    filePath: string
+  ): vscode.Uri | undefined {
     let uri;
-    if (typeof filePath !== "string" || filePath.length === 0) {
+    if (typeof filePath !== 'string' || filePath.length === 0) {
       uri = undefined;
     } else if (filePath.startsWith(RuleInspectorRpc.packagePrefix)) {
       uri = undefined;
@@ -167,12 +203,17 @@ export abstract class RuleInspectorRpc extends BaseInspectorWebviewView {
   private static newUntitledId = 1;
   private static guessFilenameAttemptCount = 100;
 
-  private async suggestNewFileUri(baseDir: string, name?: string): Promise<vscode.Uri | undefined> {
+  private async suggestNewFileUri(
+    baseDir: string,
+    name?: string
+  ): Promise<vscode.Uri | undefined> {
     let addSuffix = false;
     let uri: vscode.Uri | undefined = undefined;
     let c = 0;
     do {
-      uri = vscode.Uri.file(join(baseDir, this.guessNewFileName(name, addSuffix)));
+      uri = vscode.Uri.file(
+        join(baseDir, this.guessNewFileName(name, addSuffix))
+      );
       try {
         await vscode.workspace.fs.stat(uri);
         uri = undefined;
@@ -188,17 +229,17 @@ export abstract class RuleInspectorRpc extends BaseInspectorWebviewView {
 
   private guessNewFileName(name?: string, addSuffix: boolean = false): string {
     let fileNamePrefix;
-    if (name && typeof name === "string") {
+    if (name && typeof name === 'string') {
       let separator;
       if (this.newFileNamingConvention === NamingConvention.kebabCase) {
         fileNamePrefix = kebabCase(name);
-        separator = "-";
+        separator = '-';
       } else if (this.newFileNamingConvention === NamingConvention.camelCase) {
         fileNamePrefix = camelCase(name);
-        separator = "";
+        separator = '';
       } else {
         fileNamePrefix = name;
-        separator = " ";
+        separator = ' ';
       }
       if (addSuffix) {
         fileNamePrefix += `${separator}${RuleInspectorRpc.newUntitledId++}`;
@@ -210,44 +251,60 @@ export abstract class RuleInspectorRpc extends BaseInspectorWebviewView {
   }
 
   private _configCache: {
-    excludeDirs?: string[],
-    fileExtensions?: string[],
-    maxResults?: number,
-    newFileExtension?: string,
-    newFileNamingConvention?: string
+    excludeDirs?: string[];
+    fileExtensions?: string[];
+    maxResults?: number;
+    newFileExtension?: string;
+    newFileNamingConvention?: string;
   } = {};
 
   private get excludeDirs(): string[] {
     if (!isDefined(this._configCache.excludeDirs)) {
-      this._configCache.excludeDirs = splitByComma(this.getConf("findFiles", "excludeDirs", ""));
+      this._configCache.excludeDirs = splitByComma(
+        this.getConf('findFiles', 'excludeDirs', '')
+      );
     }
     return this._configCache.excludeDirs!;
   }
 
   private get fileExtensions(): string[] {
     if (!isDefined(this._configCache.fileExtensions)) {
-      this._configCache.fileExtensions = splitByComma(this.getConf("findFiles", "fileExtensions", ""));
+      this._configCache.fileExtensions = splitByComma(
+        this.getConf('findFiles', 'fileExtensions', '')
+      );
     }
     return this._configCache.fileExtensions!;
   }
 
   private get maxResults(): number {
     if (!isDefined(this._configCache.maxResults)) {
-      this._configCache.maxResults = this.getConf("findFiles", "maxResults", 50);
+      this._configCache.maxResults = this.getConf(
+        'findFiles',
+        'maxResults',
+        50
+      );
     }
     return this._configCache.maxResults!;
   }
 
   private get newFileExtension(): string {
     if (!isDefined(this._configCache.newFileExtension)) {
-      this._configCache.newFileExtension = this.getConf("scriptFile", "newFileExtension", "");
+      this._configCache.newFileExtension = this.getConf(
+        'scriptFile',
+        'newFileExtension',
+        ''
+      );
     }
     return this._configCache.newFileExtension!;
   }
 
   private get newFileNamingConvention(): string {
     if (!isDefined(this._configCache.newFileNamingConvention)) {
-      this._configCache.newFileNamingConvention = this.getConf("scriptFile", "newFileNamingConvention", "");
+      this._configCache.newFileNamingConvention = this.getConf(
+        'scriptFile',
+        'newFileNamingConvention',
+        ''
+      );
     }
     return this._configCache.newFileNamingConvention!;
   }

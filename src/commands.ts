@@ -3,10 +3,10 @@ import { isDefined } from './common/types';
 import { RuleEditorPanel } from './ruleEditor/ruleEditorPanel';
 import { RuleEditorProvider } from './ruleEditor/ruleEditorProvider';
 import { showStepQuickPick, StepType } from './util';
-import { dirname } from "path";
+import { dirname } from 'path';
 
 export class NewRuleFileCommand {
-  public static readonly id = "ruleengine.ruleEditor.newFile";
+  public static readonly id = 'ruleengine.ruleEditor.newFile';
 
   private static newUntitledId = 1;
 
@@ -16,17 +16,23 @@ export class NewRuleFileCommand {
 
     let uri;
     if (workspaceFolders) {
-      uri = vscode.Uri.joinPath(workspaceFolders[0].uri, newFileName).with({ scheme: 'untitled' });
+      uri = vscode.Uri.joinPath(workspaceFolders[0].uri, newFileName).with({
+        scheme: 'untitled'
+      });
     } else {
       uri = vscode.Uri.file(newFileName).with({ scheme: 'untitled' });
     }
 
-    vscode.commands.executeCommand('vscode.openWith', uri, RuleEditorProvider.viewType);
+    vscode.commands.executeCommand(
+      'vscode.openWith',
+      uri,
+      RuleEditorProvider.viewType
+    );
   }
 }
 
 export class NewScriptFileCommand {
-  public static readonly id = "ruleengine.ruleEditor.newScriptFile";
+  public static readonly id = 'ruleengine.ruleEditor.newScriptFile';
 
   private static newUntitledId = 1;
   private static attemptCount = 100;
@@ -40,10 +46,19 @@ export class NewScriptFileCommand {
       uri = await NewScriptFileCommand.suggestScriptFileUri();
     }
 
-    const textDocument = await vscode.workspace.openTextDocument(uri.with({ scheme: 'untitled' }));
-    const editor = await vscode.window.showTextDocument(textDocument, vscode.ViewColumn.One, false);
+    const textDocument = await vscode.workspace.openTextDocument(
+      uri.with({ scheme: 'untitled' })
+    );
+    const editor = await vscode.window.showTextDocument(
+      textDocument,
+      vscode.ViewColumn.One,
+      false
+    );
     await editor.edit(edit => {
-      edit.insert(new vscode.Position(0, 0), templateCode!.replace(/\\n/g, "\n"));
+      edit.insert(
+        new vscode.Position(0, 0),
+        templateCode!.replace(/\\n/g, '\n')
+      );
     });
     return true;
   }
@@ -51,8 +66,11 @@ export class NewScriptFileCommand {
   private static async suggestScriptFileUri(): Promise<vscode.Uri> {
     const workspaceFolders = vscode.workspace.workspaceFolders;
     const workspaceUri = workspaceFolders ? workspaceFolders[0].uri : undefined;
-    const activeDocument = RuleEditorProvider.current?.activeCustomEditor?.document;
-    const documentDirUri = activeDocument ? vscode.Uri.file(dirname(activeDocument.uri.fsPath)) : undefined;
+    const activeDocument =
+      RuleEditorProvider.current?.activeCustomEditor?.document;
+    const documentDirUri = activeDocument
+      ? vscode.Uri.file(dirname(activeDocument.uri.fsPath))
+      : undefined;
 
     let uri: vscode.Uri | undefined = undefined;
     let c = 0;
@@ -78,36 +96,46 @@ export class NewScriptFileCommand {
   }
 
   private static createNewFileName(): string {
-    const extension = vscode.workspace.getConfiguration("ruleengine.ruleEditor.scriptFile").get("newFileExtension", "");
+    const extension = vscode.workspace
+      .getConfiguration('ruleengine.ruleEditor.scriptFile')
+      .get('newFileExtension', '');
     return `new-${NewScriptFileCommand.newUntitledId++}.${extension}`;
   }
 
   private static async showTemplateQuickPick(): Promise<string | undefined> {
-    const conf = vscode.workspace.getConfiguration("ruleengine.ruleEditor.scriptFile");
-    const group: string | undefined = conf.get("templateGroup");
-    const templates: Record<string, Array<{ code: string, label?: string, detail?: string }>> = conf.get("templates", {});
+    const conf = vscode.workspace.getConfiguration(
+      'ruleengine.ruleEditor.scriptFile'
+    );
+    const group: string | undefined = conf.get('templateGroup');
+    const templates: Record<
+      string,
+      Array<{ code: string; label?: string; detail?: string }>
+    > = conf.get('templates', {});
     if (!group || !Array.isArray(templates[group])) {
       return undefined;
     }
     const templateItems = templates[group];
-    const quickPickItems: Array<vscode.QuickPickItem> = templateItems.map(t => ({
-      label: t.label || t.code,
-      detail: t.detail
-    }));
+    const quickPickItems: Array<vscode.QuickPickItem> = templateItems.map(
+      t => ({
+        label: t.label || t.code,
+        detail: t.detail
+      })
+    );
     const result = await vscode.window.showQuickPick(quickPickItems, {
       placeHolder: 'Select File Template'
     });
     if (!result) {
       return undefined;
     }
-    const code: string | undefined = templateItems
-      .find(t => t.label === result.label)?.code;
+    const code: string | undefined = templateItems.find(
+      t => t.label === result.label
+    )?.code;
     return code;
   }
 }
 
 export class AddStepCommand {
-  public static readonly id = "ruleengine.ruleEditor.addStep";
+  public static readonly id = 'ruleengine.ruleEditor.addStep';
 
   public static async execute(): Promise<any> {
     const activeEditorPanel = findActivePanel();
@@ -129,29 +157,29 @@ export class AddStepCommand {
   }
 
   private static getStepTypeAndName(stepType: StepType): {
-    type: String | null,
-    name: String | null
+    type: String | null;
+    name: String | null;
   } {
     let type: String | null = null;
     let name: String | null = null;
 
     switch (stepType) {
       case StepType.start:
-        type = "start";
+        type = 'start';
         break;
       case StepType.end:
-        type = "end";
+        type = 'end';
         break;
       case StepType.error:
-        type = "error";
+        type = 'error';
         break;
       case StepType.single:
-        type = "single";
-        name = "New Step";
+        type = 'single';
+        name = 'New Step';
         break;
       case StepType.composite:
-        type = "composite";
-        name = "New Step";
+        type = 'composite';
+        name = 'New Step';
         break;
     }
 
@@ -160,7 +188,7 @@ export class AddStepCommand {
 }
 
 export class DeleteCommand {
-  public static readonly id = "ruleengine.ruleEditor.delete";
+  public static readonly id = 'ruleengine.ruleEditor.delete';
 
   public static async execute(): Promise<any> {
     const activeEditorPanel = findActivePanel();
@@ -169,7 +197,7 @@ export class DeleteCommand {
 }
 
 export class Zoom50Command {
-  public static readonly id = "ruleengine.ruleEditor.zoom50";
+  public static readonly id = 'ruleengine.ruleEditor.zoom50';
 
   public static async execute(): Promise<any> {
     const activeEditorPanel = findActivePanel();
@@ -178,7 +206,7 @@ export class Zoom50Command {
 }
 
 export class Zoom100Command {
-  public static readonly id = "ruleengine.ruleEditor.zoom100";
+  public static readonly id = 'ruleengine.ruleEditor.zoom100';
 
   public static async execute(): Promise<any> {
     const activeEditorPanel = findActivePanel();
@@ -187,7 +215,7 @@ export class Zoom100Command {
 }
 
 export class Zoom200Command {
-  public static readonly id = "ruleengine.ruleEditor.zoom200";
+  public static readonly id = 'ruleengine.ruleEditor.zoom200';
 
   public static async execute(): Promise<any> {
     const activeEditorPanel = findActivePanel();
@@ -196,7 +224,7 @@ export class Zoom200Command {
 }
 
 export class FitCanvasCommand {
-  public static readonly id = "ruleengine.ruleEditor.fitCanvas";
+  public static readonly id = 'ruleengine.ruleEditor.fitCanvas';
   private static readonly maxZoom = 100;
 
   public static async execute(): Promise<any> {
@@ -206,7 +234,7 @@ export class FitCanvasCommand {
 }
 
 export class ZoomInCommand {
-  public static readonly id = "ruleengine.ruleEditor.zoomIn";
+  public static readonly id = 'ruleengine.ruleEditor.zoomIn';
 
   public static async execute(): Promise<any> {
     const activeEditorPanel = findActivePanel();
@@ -215,7 +243,7 @@ export class ZoomInCommand {
 }
 
 export class ZoomOutCommand {
-  public static readonly id = "ruleengine.ruleEditor.zoomOut";
+  public static readonly id = 'ruleengine.ruleEditor.zoomOut';
 
   public static async execute(): Promise<any> {
     const activeEditorPanel = findActivePanel();

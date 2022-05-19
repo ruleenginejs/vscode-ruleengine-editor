@@ -3,12 +3,23 @@ import { getNonce } from '../common/util';
 import { RuleInspectorRpc } from './ruleInspectorRpc';
 
 export class RuleInspectorWebviewView extends RuleInspectorRpc {
-
   protected getHtmlForWebview(webview: vscode.Webview): string {
-    const scriptPathOnDisk = vscode.Uri.joinPath(this.extensionUri, "media", 'editor', 'dist', 'index.js');
+    const scriptPathOnDisk = vscode.Uri.joinPath(
+      this.extensionUri,
+      'media',
+      'editor',
+      'dist',
+      'index.js'
+    );
     const scriptUri = webview.asWebviewUri(scriptPathOnDisk);
 
-    const stylesPathOnDisk = vscode.Uri.joinPath(this.extensionUri, "media", 'editor', 'dist', 'style.css');
+    const stylesPathOnDisk = vscode.Uri.joinPath(
+      this.extensionUri,
+      'media',
+      'editor',
+      'dist',
+      'style.css'
+    );
     const stylesUri = webview.asWebviewUri(stylesPathOnDisk);
 
     const nonce = getNonce();

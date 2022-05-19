@@ -1,10 +1,10 @@
-import * as vscode from "vscode";
-import { BaseInspectorView } from "../common/inspectorView";
-import { InspectorWebviewView } from "../common/inspectorWebviewView";
-import { RuleInspectorWebviewView } from "./ruleInspectorWebviewView";
+import * as vscode from 'vscode';
+import { BaseInspectorView } from '../common/inspectorView';
+import { InspectorWebviewView } from '../common/inspectorWebviewView';
+import { RuleInspectorWebviewView } from './ruleInspectorWebviewView';
 
 export class RuleInspectorView extends BaseInspectorView {
-  public static readonly viewType = "ruleengine.inpsectorView";
+  public static readonly viewType = 'ruleengine.inpsectorView';
 
   public static current: RuleInspectorView | undefined;
 
@@ -28,14 +28,21 @@ export class RuleInspectorView extends BaseInspectorView {
   }
 
   public get isAutoReveal(): boolean {
-    return vscode.workspace.getConfiguration("ruleengine.ruleEditor.inspector").get("autoReveal", false);
+    return vscode.workspace
+      .getConfiguration('ruleengine.ruleEditor.inspector')
+      .get('autoReveal', false);
   }
 
   public get revealDelay(): number {
-    return vscode.workspace.getConfiguration("ruleengine.ruleEditor.inspector").get("revealDelay", 0);
+    return vscode.workspace
+      .getConfiguration('ruleengine.ruleEditor.inspector')
+      .get('revealDelay', 0);
   }
 
-  protected createView(webviewView: vscode.WebviewView, extensionUri: vscode.Uri): InspectorWebviewView {
+  protected createView(
+    webviewView: vscode.WebviewView,
+    extensionUri: vscode.Uri
+  ): InspectorWebviewView {
     return new RuleInspectorWebviewView(webviewView, extensionUri);
   }
 }
