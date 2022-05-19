@@ -7,27 +7,31 @@
     "dev": "vite",
     "watch": "vite build --watch",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "lint": "eslint . --ext .vue,.js --fix --ignore-path .gitignore",
+    "format": "prettier --write \"src/**/*.{js,vue,css}\""
   },
   "dependencies": {
     "@ruleenginejs/editor": "1.2.7",
     "@ruleenginejs/ui": "1.2.4",
     "@vscode/codicons": "0.0.29",
+    "debounce": "1.2.1",
     "eventemitter3": "4.0.7",
     "is-plain-object": "5.0.0",
-    "debounce": "1.2.1",
-    "vue": "3.2.31",
-    "vue-router": "4.0.14",
+    "vue": "3.2.34",
+    "vue-router": "4.0.15",
     "worker-rpc": "0.2.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^2.3.1",
-    "autoprefixer": "^10.4.4",
-    "eslint": "^8.12.0",
-    "eslint-plugin-vue": "^8.5.0",
-    "postcss": "^8.4.12",
+    "@vitejs/plugin-vue": "^2.3.3",
+    "@vue/eslint-config-prettier": "^7.0.0",
+    "autoprefixer": "^10.4.7",
+    "eslint": "^8.15.0",
+    "eslint-plugin-vue": "^9.0.1",
+    "postcss": "^8.4.14",
     "postcss-import": "^14.1.0",
-    "tailwindcss": "^3.0.23",
-    "vite": "^2.9.1"
+    "prettier": "^2.6.2",
+    "tailwindcss": "^3.0.24",
+    "vite": "^2.9.9"
   }
 }
