@@ -5,5 +5,5 @@
 </template>
 
 <style>
-@import "not-found";
+@import 'not-found';
 </style>

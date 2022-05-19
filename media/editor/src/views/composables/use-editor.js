@@ -1,6 +1,6 @@
-import { ref, onBeforeUnmount } from "vue";
-import { DEFAULT_ZOOM } from "./const";
-import { EditorRpc } from "./editor-rpc";
+import { ref, onBeforeUnmount } from 'vue';
+import { DEFAULT_ZOOM } from './const';
+import { EditorRpc } from './editor-rpc';
 
 const edgeScrollSizes = Object.freeze({
   edgeTopSize: { in: 10, out: 0 },
@@ -40,5 +40,5 @@ export default function useEditor(vscode) {
     rpc,
     onChangeValue,
     onChangeSelection
-  }
+  };
 }

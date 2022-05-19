@@ -1,7 +1,7 @@
-import { isDefined } from "./types";
+import { isDefined } from './types';
 
 export function executeCommand(command, params = null) {
-  const a = document.createElement("a");
+  const a = document.createElement('a');
   const uri = new URL(`command:${command}`);
   if (isDefined(params)) {
     Object.keys(params).forEach(key => {

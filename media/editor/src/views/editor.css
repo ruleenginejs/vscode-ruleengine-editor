@@ -16,7 +16,7 @@
   @apply align-middle leading-none;
 }
 
-.editor-hint__add > .codicon[class*=codicon-] {
+.editor-hint__add > .codicon[class*='codicon-'] {
   /* display styles */
   @apply inline-block;
 }

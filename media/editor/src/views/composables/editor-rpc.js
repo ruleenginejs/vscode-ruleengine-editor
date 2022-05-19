@@ -1,7 +1,7 @@
-import { watch, nextTick } from "vue";
-import { ExthostRpc } from "@/utils/exthost-rpc";
-import { sidebarModelSerializer } from "@ruleenginejs/editor";
-import { NEW_NODE_CASCADE_OFFSET, NEW_NODE_START_OFFSET } from "./const";
+import { watch, nextTick } from 'vue';
+import { ExthostRpc } from '@/utils/exthost-rpc';
+import { sidebarModelSerializer } from '@ruleenginejs/editor';
+import { NEW_NODE_CASCADE_OFFSET, NEW_NODE_START_OFFSET } from './const';
 
 export class EditorRpc extends ExthostRpc {
   constructor(vscode, { zoom, editor, selectedModel }) {
@@ -41,21 +41,24 @@ export class EditorRpc extends ExthostRpc {
 
     watch(this.selectedModel, () => {
       this.needUpdateInspector();
-    })
+    });
   }
 
   _registerHandlers() {
-    this.provider.registerRpcHandler("setInitialData", this.setInitialData);
-    this.provider.registerRpcHandler("getFileData", this.getFileData);
-    this.provider.registerRpcHandler("setFileData", this.setFileData);
-    this.provider.registerRpcHandler("applyEdits", this.applyEdits);
-    this.provider.registerRpcHandler("addStep", this.addStep);
-    this.provider.registerRpcHandler("setZoom", this.setZoom);
-    this.provider.registerRpcHandler("fitCanvas", this.fitCanvas);
-    this.provider.registerRpcHandler("deleteSelection", this.deleteSelection);
-    this.provider.registerRpcHandler("zoomIn", this.zoomIn);
-    this.provider.registerRpcHandler("zoomOut", this.zoomOut);
-    this.provider.registerSignalHandler("needUpdateInspector", this.needUpdateInspector);
+    this.provider.registerRpcHandler('setInitialData', this.setInitialData);
+    this.provider.registerRpcHandler('getFileData', this.getFileData);
+    this.provider.registerRpcHandler('setFileData', this.setFileData);
+    this.provider.registerRpcHandler('applyEdits', this.applyEdits);
+    this.provider.registerRpcHandler('addStep', this.addStep);
+    this.provider.registerRpcHandler('setZoom', this.setZoom);
+    this.provider.registerRpcHandler('fitCanvas', this.fitCanvas);
+    this.provider.registerRpcHandler('deleteSelection', this.deleteSelection);
+    this.provider.registerRpcHandler('zoomIn', this.zoomIn);
+    this.provider.registerRpcHandler('zoomOut', this.zoomOut);
+    this.provider.registerSignalHandler(
+      'needUpdateInspector',
+      this.needUpdateInspector
+    );
   }
 
   get editorInstance() {
@@ -84,7 +87,9 @@ export class EditorRpc extends ExthostRpc {
   }
 
   getFileData() {
-    if (!this.editorInstance) { return ""; }
+    if (!this.editorInstance) {
+      return '';
+    }
     const value = this.editorInstance.getValue();
     return JSON.stringify(value, null, 2);
   }
@@ -132,7 +137,7 @@ export class EditorRpc extends ExthostRpc {
   }
 
   updateInspector(data) {
-    this.provider.signal("updateInspector", data);
+    this.provider.signal('updateInspector', data);
   }
 
   needUpdateInspector() {
@@ -146,7 +151,7 @@ export class EditorRpc extends ExthostRpc {
   }
 
   sendEditSignal(data) {
-    this.provider.signal("edit", data);
+    this.provider.signal('edit', data);
   }
 
   onChangeModelContent() {

@@ -1,4 +1,6 @@
-html, body, #app {
+html,
+body,
+#app {
   /* sizes */
   @apply w-full h-full;
 }

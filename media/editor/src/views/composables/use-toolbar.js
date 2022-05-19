@@ -1,19 +1,26 @@
-import { ref, computed, onMounted, onUnmounted, watchEffect, reactive } from "vue";
-import { toolbar, toolbarDefaults } from "@ruleenginejs/editor";
-import debounce from "debounce";
-import { executeCommand } from "@/utils/exthost";
-import { DEFAULT_POSITION, RESIZE_DELAY } from "./const";
+import {
+  ref,
+  computed,
+  onMounted,
+  onUnmounted,
+  watchEffect,
+  reactive
+} from 'vue';
+import { toolbar, toolbarDefaults } from '@ruleenginejs/editor';
+import debounce from 'debounce';
+import { executeCommand } from '@/utils/exthost';
+import { DEFAULT_POSITION, RESIZE_DELAY } from './const';
 
 const actionKeys = {
-  addStep: "addStep"
+  addStep: 'addStep'
 };
 
 const actionDefs = [
   {
     id: actionKeys.addStep,
-    icon: "plus",
-    title: "Add Step",
-    label: "Add Step",
+    icon: 'plus',
+    title: 'Add Step',
+    label: 'Add Step',
     disabled: false,
     visible: true,
     draggable: false,
@@ -32,36 +39,50 @@ export default function useToolbar(editorRef, selectedModel) {
   const actions = reactive(actionDefs);
 
   const canDeleteSelectedModel = computed(() =>
-    editorRef.value ? editorRef.value.instance.canDeleteModelObject(selectedModel.value) : false);
+    editorRef.value
+      ? editorRef.value.instance.canDeleteModelObject(selectedModel.value)
+      : false
+  );
 
   const canAddStartNode = computed(() =>
-    editorRef.value ? !editorRef.value.instance.getModel().startNode : false);
+    editorRef.value ? !editorRef.value.instance.getModel().startNode : false
+  );
 
   const canAddErrorNode = computed(() =>
-    editorRef.value ? !editorRef.value.instance.getModel().errorNode : false);
+    editorRef.value ? !editorRef.value.instance.getModel().errorNode : false
+  );
 
   watchEffect(() => {
     const enabled = canDeleteSelectedModel.value;
-    toolbarRef.value?.enableAction(toolbarDefaults.defaultActionKey.remove, enabled);
+    toolbarRef.value?.enableAction(
+      toolbarDefaults.defaultActionKey.remove,
+      enabled
+    );
   });
 
   watchEffect(() => {
     const enabled = canAddStartNode.value;
-    toolbarRef.value?.enableAction(toolbarDefaults.defaultActionKey.addStart, enabled);
+    toolbarRef.value?.enableAction(
+      toolbarDefaults.defaultActionKey.addStart,
+      enabled
+    );
   });
 
   watchEffect(() => {
     const enabled = canAddErrorNode.value;
-    toolbarRef.value?.enableAction(toolbarDefaults.defaultActionKey.addError, enabled);
+    toolbarRef.value?.enableAction(
+      toolbarDefaults.defaultActionKey.addError,
+      enabled
+    );
   });
 
   onMounted(() => {
-    window.addEventListener("resize", resizeHandler);
+    window.addEventListener('resize', resizeHandler);
     toolbar.registerActionHandler(actionKeys.addStep, handleAddStep);
   });
 
   onUnmounted(() => {
-    window.removeEventListener("resize", resizeHandler);
+    window.removeEventListener('resize', resizeHandler);
     toolbar.unregisterActionHandler(actionKeys.addStep, handleAddStep);
   });
 
@@ -75,11 +96,10 @@ export default function useToolbar(editorRef, selectedModel) {
     }
   }
 
-  function onMoveEnd() {
-  }
+  function onMoveEnd() {}
 
   function handleAddStep() {
-    executeCommand("ruleengine.ruleEditor.addStep");
+    executeCommand('ruleengine.ruleEditor.addStep');
   }
 
   return {
@@ -92,5 +112,5 @@ export default function useToolbar(editorRef, selectedModel) {
     showActionLabel,
     onActionClick,
     onMoveEnd
-  }
+  };
 }

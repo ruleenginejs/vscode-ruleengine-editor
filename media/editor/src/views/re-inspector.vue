@@ -1,14 +1,9 @@
 <script setup>
-import { inject } from "vue";
-import useInspector from "./composables/use-inspector";
+import { inject } from 'vue';
+import useInspector from './composables/use-inspector';
 
-const vscode = inject("$vscode");
-const {
-  dataModel,
-  editDelay,
-  provider,
-  onEdit
-} = useInspector(vscode);
+const vscode = inject('$vscode');
+const { dataModel, editDelay, provider, onEdit } = useInspector(vscode);
 </script>
 
 <template>
@@ -23,5 +18,5 @@ const {
 </template>
 
 <style>
-@import "inspector";
+@import 'inspector';
 </style>

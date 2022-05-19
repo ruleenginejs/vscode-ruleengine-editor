@@ -1,10 +1,10 @@
 <script setup>
-import { inject } from "vue";
-import ReEditorHint from "./re-editor-hint.vue";
-import useEditor from "./composables/use-editor";
-import useToolbar from "./composables/use-toolbar";
+import { inject } from 'vue';
+import ReEditorHint from './re-editor-hint.vue';
+import useEditor from './composables/use-editor';
+import useToolbar from './composables/use-toolbar';
 
-const vscode = inject("$vscode");
+const vscode = inject('$vscode');
 const {
   editorRef,
   zoom,
@@ -57,5 +57,5 @@ const {
 </template>
 
 <style>
-@import "editor";
+@import 'editor';
 </style>

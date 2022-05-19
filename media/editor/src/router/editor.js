@@ -1,9 +1,9 @@
-import ReEditor from "@/views/re-editor.vue";
+import ReEditor from '@/views/re-editor.vue';
 
 export default [
   {
-    path: "/",
-    name: "editor",
+    path: '/',
+    name: 'editor',
     component: ReEditor
   }
-]
+];
