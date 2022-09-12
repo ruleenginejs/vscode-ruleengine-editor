@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.0.6] - 2022-09-12
+### Changed
+- Update dependency packages.
+
 ## [0.0.5] - 2022-03-13
 ### Fixed
 - Empty ports in the output file.
