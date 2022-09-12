@@ -344,11 +344,10 @@
     "deploy": "vsce publish --no-yarn",
     "postversion": "npm run push",
     "push": "git push origin master --tags",
-    "vsix": "npx vsce package",
-    "prepare": "husky install"
+    "vsix": "npx vsce package"
   },
   "dependencies": {
-    "@ruleenginejs/props-parser": "1.0.2",
+    "@ruleenginejs/props-parser": "1.0.3",
     "lodash.camelcase": "4.3.0",
     "lodash.kebabcase": "4.1.1",
     "worker-rpc": "0.2.0"
