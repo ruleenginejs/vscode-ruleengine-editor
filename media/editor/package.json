@@ -12,8 +12,8 @@
     "format": "prettier --write \"src/**/*.{js,vue,css}\""
   },
   "dependencies": {
-    "@ruleenginejs/editor": "1.2.7",
-    "@ruleenginejs/ui": "1.2.4",
+    "@ruleenginejs/editor": "1.2.8",
+    "@ruleenginejs/ui": "1.2.5",
     "@vscode/codicons": "0.0.32",
     "debounce": "1.2.1",
     "eventemitter3": "4.0.7",
